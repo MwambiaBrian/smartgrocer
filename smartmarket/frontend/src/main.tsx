@@ -1,0 +1,97 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+import 'bootstrap/dist/css/bootstrap.css';
+// import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+// import { BrowserRouter as Router } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  RouterProvider,
+  Routes,
+} from "react-router-dom";
+
+import App from './App'
+import './index.css'
+import Auth from './features/authentication/Account/Auth';
+import Dashboard from './features/dashboard/Dashboard';
+import Resetpassword from './features/authentication/ForgotPassword/Resetpassword';
+import BusinessForm from './features/business/Business/BusinessForm';
+import Inventory from './features/business/Inventory/Inventory';
+import Orders from './features/business/Orders/Orders';
+import Verification from './features/authentication/Verification/Verification';
+import Landing from './features/LandingPage/Landing';
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+  
+    children:[
+    {
+      path: "home",
+      element: <Landing />
+    
+    }
+    
+    ]
+
+  },
+  { 
+    path:'/user',
+    element: <App/>,
+    
+      children: [
+      
+        {
+          path: "verify",
+          element: <Verification />,
+        },
+        {
+          path: "auth",
+          element: <Auth />,
+          children: [
+           
+          ]
+        },
+        {
+          path: "reset",
+          element: <Resetpassword />
+        }
+      ],
+    
+  },
+  { 
+    path:'/business',
+    element: <App/>,
+    
+      children: [
+      
+        {
+          path: "create",
+          element: <BusinessForm />,
+        },
+        {
+          path: "inventory",
+          element: <Inventory />,
+          children: [
+           
+          ]
+        },
+        {
+          path: "orders",
+          element: <Orders />
+        }
+      ],
+    
+  },
+]
+  
+);
+
+
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <React.StrictMode>
+     <RouterProvider router={router} />
+  </React.StrictMode>
+)
