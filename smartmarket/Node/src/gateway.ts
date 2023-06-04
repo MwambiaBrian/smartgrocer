@@ -11,12 +11,12 @@ import authController from "./controllers/auth"
 //middlewares
 //import authenticateToken from "./middlewares/authenticate.js"
 //import authorize from "./middlewares/authorize.js"
-//import mongoose from "mongoose";
-//import cors from 'cors'
+
+import cors from 'cors'
 const app = express()
 
 const port = process.env.PORT || 9000;
-//app.use(cors())
+app.use(cors())
 app.use(express.json());
 
 app.get('/', (req, res) => {

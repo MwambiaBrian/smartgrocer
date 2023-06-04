@@ -17,6 +17,7 @@ import Header from './components/shared/header/Header'
 import Auth from './features/authentication/Routes';
 
 import Dashboard from "./features/dashboard/Dashboard";
+import { useState } from "react";
 
 // const router = createBrowserRouter(
 //   createRoutesFromElements(
@@ -30,7 +31,7 @@ import Dashboard from "./features/dashboard/Dashboard";
 
 function App() {
   //const [count, setCount] = useState(0)
-
+  const isAuthenticated = useState() // Logic to check if the user is authenticated
 
   return (
     <div className='app'>

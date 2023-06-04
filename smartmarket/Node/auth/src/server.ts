@@ -25,8 +25,10 @@ const conn = `mongodb://devuser:devpassword@:27017/?retryWrites=true&w=majority`
 const connn = `mongodb+srv://adminuser:${password}@cluster0.retoa9u.mongodb.net/?retryWrites=true&w=majority`
 
 mongoose.connect(mongoURI, {
-//  useNewUrlParser: true,
-  //useUnifiedTopology: true
+  // useNewUrlParser: true,
+  //     useUnifiedTopology: true,
+  //     useCreateIndex: true,
+  //     useFindAndModify: false,
 })
 .then(() => console.log("database connected"))
 .catch((err) => console.error(err))

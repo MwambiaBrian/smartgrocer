@@ -1,0 +1,41 @@
+.carousel-item {
+    height: 50vh;
+  }
+.card {
+box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.footer-cta {
+box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+}
+.price {
+color: #263238;
+font-size: 24px;
+}
+
+.card-title {
+color:#263238
+}
+
+.sale {
+color: #E53935
+}
+
+.sale-badge {
+background-color: #E53935
+}
+.search_form {
+    max-width: 12rem
+}
+.background{
+    background-color: #607D8B
+}
+.c_right{
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #E0E0E0"
+}
+.footer{
+    background-color: #607D8B
+}
+.mask_{
+    background-color: rgba(251, 251, 251, 0.15);
+}

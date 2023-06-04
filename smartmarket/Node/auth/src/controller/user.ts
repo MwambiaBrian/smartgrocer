@@ -25,8 +25,14 @@ controller.post('/register', async (req, res) => {
     };
     
     const newuser = await createUser(user)
-    const token = jwt.sign({ id: newuser._id}, 'mysecretkey');
-    res.json({"token":token});
+    const token = jwt.sign(
+      { 
+        id: newuser._id,
+        name: newuser.name,
+        email: newuser.email
+      }, 
+      'mysecretkey');
+    res.json({token});
   //  res.json({"sign up":"successful"});
      // res.json({user});
   } catch (err: any) {
@@ -87,5 +93,22 @@ controller.post("/verify", async (req, res)=>{
       }
     
     }) 
+    controller.post("/authenticate", async (req, res)=>{
+      try {
+        //   const { username, email, password, address} = req.body;
+        //  register()
+        //   const user = new Customer({ username, email, password,address});
+       
+        //   await user.save();
+        //   console.log(user.__t)
+        //   const token = jwt.sign({ userId: user._id, userRole: user.__t }, 'mysecretkey');
+        //   res.status(201).json({ token });
+        res.json({"authenticated":"successful"});
+        } catch (err) {
+         // res.status(500).send(err.message);
+        }
+      
+      }) 
+   
  
 export default controller;

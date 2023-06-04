@@ -22,6 +22,11 @@ import Orders from './features/business/Orders/Orders';
 import Verification from './features/authentication/Verification/Verification';
 import Landing from './features/LandingPage/Landing';
 
+import { Provider } from "react-redux";
+import { store } from './Store';
+import Checkout from './features/checkout/Checkout';
+import Product from './features/Product/Product';
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,7 +35,18 @@ const router = createBrowserRouter([
     children:[
     {
       path: "home",
+      index: true,
       element: <Landing />
+    
+    },
+    {
+      path: "checkout",
+      element: <Checkout />
+    
+    },
+    {
+      path: "product",
+      element: <Product />
     
     }
     
@@ -38,7 +54,7 @@ const router = createBrowserRouter([
 
   },
   { 
-    path:'/user',
+    
     element: <App/>,
     
       children: [
@@ -48,7 +64,7 @@ const router = createBrowserRouter([
           element: <Verification />,
         },
         {
-          path: "auth",
+          path: "/auth",
           element: <Auth />,
           children: [
            
@@ -81,10 +97,73 @@ const router = createBrowserRouter([
         {
           path: "orders",
           element: <Orders />
+        },
+        {
+          path: "add",
+          element: <Orders />
         }
       ],
     
   },
+ 
+  { 
+    path:'/delivery',
+    element: <App/>,
+    
+      children: [
+        {
+          path: "newtransport",
+          element: <BusinessForm />,
+        },
+        {
+          path: "home",
+          element: <BusinessForm />,
+        },
+        {
+          path: "orders",
+          element: <Inventory />,
+          children: [
+           
+          ]
+        },
+        {
+          path: "profile",
+          element: <Orders />
+        }
+      ],
+    
+  },
+  { 
+    path:'/admin',
+    element: <App/>,
+    
+      children: [
+        {
+          path: "businesses",
+          element: <BusinessForm />,
+        },
+        {
+          path: "deliveries",
+          element: <BusinessForm />,
+        },
+        {
+          path: "transport",
+          element: <Inventory />,
+          children: [
+           
+          ]
+        },
+        {
+          path: "customers",
+          element: <Orders />
+        },
+        {
+          path: "orders",
+          element: <Orders />
+        }
+      ],
+    
+  }
 ]
   
 );
@@ -92,6 +171,9 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-     <RouterProvider router={router} />
+      <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+   
   </React.StrictMode>
 )
