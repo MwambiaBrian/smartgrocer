@@ -6,15 +6,15 @@ import 'bootstrap/dist/css/bootstrap.css';
 // import { BrowserRouter as Router } from 'react-router-dom';
 import {
   createBrowserRouter,
-  createRoutesFromElements,
-  RouterProvider,
-  Routes,
+  
+  RouterProvider
+ 
 } from "react-router-dom";
 
 import App from './App'
 import './index.css'
 import Auth from './features/authentication/Account/Auth';
-import Dashboard from './features/dashboard/Dashboard';
+
 import Resetpassword from './features/authentication/ForgotPassword/Resetpassword';
 import BusinessForm from './features/business/Business/BusinessForm';
 import Inventory from './features/business/Inventory/Inventory';
@@ -27,6 +27,14 @@ import { store } from './Store';
 import Checkout from './features/checkout/Checkout';
 import Product from './features/Product/Product';
 
+import Unauthorized from './features/authentication/Unauthorized';
+
+import { loadUser } from './Slices/authSlice';
+import Protected from './features/authentication/Protected';
+
+
+store.dispatch(loadUser())
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,8 +43,8 @@ const router = createBrowserRouter([
     children:[
     {
       path: "home",
-      index: true,
-      element: <Landing />
+      // element:<Landing /> 
+      element:<Protected><Landing /></Protected> 
     
     },
     {
@@ -65,10 +73,8 @@ const router = createBrowserRouter([
         },
         {
           path: "/auth",
-          element: <Auth />,
-          children: [
-           
-          ]
+          element: <Unauthorized><Auth /></Unauthorized>
+          
         },
         {
           path: "reset",

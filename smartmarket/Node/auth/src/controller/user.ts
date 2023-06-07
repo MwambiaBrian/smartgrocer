@@ -50,7 +50,13 @@ controller.post("/login", async (req, res)=>{
        if (!user) throw new Error('User not found');
        const isPasswordValid = await bcrypt.compare(password, user.password);
        if (!isPasswordValid) throw new Error('Invalid password');
-       const token = jwt.sign({ userId: user._id,}, 'mysecretkey');
+       const token = jwt.sign(
+        { 
+          id: user._id,
+          name: user.name,
+          email: user.email
+        }, 
+        'mysecretkey');
        res.json({"token":token});
     //  res.json({"login":"successful"});
     } catch (err: any) {

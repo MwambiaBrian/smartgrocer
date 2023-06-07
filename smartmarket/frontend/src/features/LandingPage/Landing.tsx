@@ -35,7 +35,7 @@ console.log(auth)
   </div>
   <div className="carousel-inner">
     <div className="carousel-item active">
-      <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/8-col/img%282%29.jpg" className="d-block w-100" alt="Wild Landscape"/>
+      <img src="https://s.hdnux.com/photos/01/24/07/42/22050963/7/1200x0.jpg" className="d-block w-100" alt="Wild Landscape"/>
       {/* <div className="mask" style="background-color: rgba(0, 0, 0, 0.4)"></div> */}
       <div className="carousel-caption d-none d-sm-block mb-5">
       <h1 className="mb-4">
@@ -77,7 +77,7 @@ console.log(auth)
       </div>
     </div>
     <div className="carousel-item">
-      <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/8-col/img%285%29.jpg" className="d-block w-100" alt="Exotic Fruits"/>
+      <img src="https://thumbs.dreamstime.com/b/healthy-vegetables-grocery-store-lots-small-35578407.jpg" className="d-block w-100" alt="Exotic Fruits"/>
       {/* <div class="mask" style="background-color: rgba(0, 0, 0, 0.4)"></div> */}
       <div className="carousel-caption d-none d-md-block mb-5">
         <h1 className="mb-4">
@@ -170,7 +170,7 @@ console.log(auth)
         <div className="card">
           <div className="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
             data-mdb-ripple-color="light">
-            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12.jpg"
+            <img src="https://i0.wp.com/farmerstrend.co.ke/wp-content/uploads/2023/04/tomato-farming-in-kenya.jpg"
               className
               ="w-100" />
             <a href="">
@@ -186,12 +186,12 @@ console.log(auth)
           </div>
           <div className="card-body">
             <a href="" className="text-reset">
-              <h5 className="card-title mb-2">Denim shirt</h5>
+              <h5 className="card-title mb-2">Tomatoes</h5>
             </a>
             <a href="" className="text-reset ">
-              <p>Shirt</p>
+              <p>Vegetables</p>
             </a>
-            <h6 className="mb-3 price">120$</h6>
+            <h6 className="mb-3 price">sh70</h6>
           </div>
         </div>
       </div>
@@ -200,7 +200,7 @@ console.log(auth)
         <div className="card">
           <div className="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
             data-mdb-ripple-color="light">
-            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13.jpg"
+            <img src="https://healthyfamilyproject.com/wp-content/uploads/2020/05/Cabbage-background.jpg"
               className="w-100" />
             <a href="#!">  
               <div className="mask">
@@ -215,12 +215,12 @@ console.log(auth)
           </div>
           <div className="card-body">
             <a href="" className="text-reset">
-              <h5 className="card-title mb-2">Sweatshirt</h5>
+              <h5 className="card-title mb-2">Cabbages</h5>
             </a>
             <a href="" className="text-reset ">
-              <p>Sport wear</p>
+              <p>Vegetables</p>
             </a>
-            <h6 className="mb-3 price">139$</h6>
+            <h6 className="mb-3 price">sh 40</h6>
           </div>
         </div>
       </div>
@@ -229,7 +229,7 @@ console.log(auth)
         <div className="card">
           <div className="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
             data-mdb-ripple-color="light">
-            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/14.jpg"
+            <img src="https://www.solwayfeeders.com/wp-content/uploads/2021/06/caledonian_kale.jpg"
               className="w-100" />
             <a href="#!">              
               <div className="hover-overlay">
@@ -239,12 +239,12 @@ console.log(auth)
           </div>
           <div className="card-body">
             <a href="" className="text-reset">
-              <h5 className="card-title mb-2">Grey blouse</h5>
+              <h5 className="card-title mb-2">Sukuma wiki</h5>
             </a>
             <a href="" className="text-reset ">
-              <p>Sport wear</p>
+              <p>Vegetables</p>
             </a>
-            <h6 className="mb-3 price">99$</h6>
+            <h6 className="mb-3 price">sh 40</h6>
           </div>
         </div>
       </div>
@@ -252,7 +252,7 @@ console.log(auth)
       <div className="col-lg-3 col-md-6 mb-4">
         <div className="card">
           <div className="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
-            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15.jpg"
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/001/898/720/small/group-of-red-onions-free-photo.jpg"
               className="w-100" />
             <a href="#!">
               <div className="mask">
@@ -267,13 +267,13 @@ console.log(auth)
           </div>
           <div className="card-body">
             <a href="" className="text-reset">
-              <h5 className="card-title mb-2">Black jacket</h5>
+              <h5 className="card-title mb-2">Onions</h5>
             </a>
             <a href="" className="text-reset ">
-              <p>Outwear</p>
+              <p>Vegetables</p>
             </a>
             <h6 className="mb-3 price">
-              <s>199$</s><strong className="ms-2 sale">179$</strong>
+              <s>199$</s><strong className="ms-2 sale">sh80</strong>
             </h6>
           </div>
         </div>
@@ -286,7 +286,7 @@ console.log(auth)
         <div className="card">
           <div className="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
             data-mdb-ripple-color="light">
-            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13.jpg"
+            <img src="https://oxfarm.co.ke/wp-content/uploads/2018/08/pawpaw.jpg"
               className="w-100" />
             <a href="#!">              
               <div className="hover-overlay">
@@ -296,12 +296,12 @@ console.log(auth)
           </div>
           <div className="card-body">
             <a href="" className="text-reset">
-              <h5 className="card-title mb-2">Sweatshirt</h5>
+              <h5 className="card-title mb-2">Pawpaw</h5>
             </a>
             <a href="" className="text-reset ">
-              <p>Sport wear</p>
+              <p>Fruits</p>
             </a>
-            <h6 className="mb-3 price">139$</h6>
+            <h6 className="mb-3 price">sh80</h6>
           </div>
         </div>
       </div>
@@ -310,7 +310,7 @@ console.log(auth)
         <div className="card">
           <div className="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
             data-mdb-ripple-color="light">
-            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/14.jpg"
+            <img src="https://publish.purewow.net/wp-content/uploads/sites/2/2021/02/types-of-oranges-navel-oranges.jpg?fit=680%2C489"
               className="w-100" />
             <a href="#!">
               <div className="mask">
@@ -325,12 +325,12 @@ console.log(auth)
           </div>
           <div className="card-body">
             <a href="" className="text-reset">
-              <h5 className="card-title mb-2">Grey blouse</h5>
+              <h5 className="card-title mb-2">Oranges</h5>
             </a>
             <a href="" className="text-reset ">
-              <p>Sport wear</p>
+              <p>Fruits</p>
             </a>
-            <h6 className="mb-3 price">99$</h6>
+            <h6 className="mb-3 price">sh 99</h6>
           </div>
         </div>
       </div>
@@ -338,7 +338,7 @@ console.log(auth)
       <div className="col-lg-3 col-md-6 mb-4">
         <div className="card">
           <div className="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
-            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15.jpg"
+            <img src="https://images.nationalgeographic.org/image/upload/v1638892037/EducationHub/photos/banana-bunches.jpg"
               className="w-100" />
             <a href="#!">              
               <div className="hover-overlay">
@@ -348,12 +348,12 @@ console.log(auth)
           </div>
           <div className="card-body">
             <a href="" className="text-reset">
-              <h5 className="card-title mb-2">Black jacket</h5>
+              <h5 className="card-title mb-2">Bananas</h5>
             </a>
             <a href="" className="text-reset">
-              <p>Outwear</p>
+              <p>Fruits</p>
             </a>
-            <h6 className="mb-3 price">199$</h6>
+            <h6 className="mb-3 price">sh 100</h6>
           </div>
         </div>
       </div>
@@ -362,7 +362,7 @@ console.log(auth)
         <div className="card">
           <div className="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
             data-mdb-ripple-color="light">
-            <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12.jpg"
+            <img src="https://www.tastingtable.com/img/gallery/16-ways-you-need-to-try-eating-watermelon/l-intro-1660763356.jpg"
               className="w-100" />
             <a href="#!">              
               <div className="hover-overlay">
@@ -372,12 +372,12 @@ console.log(auth)
           </div>
           <div className="card-body">
             <a href="" className="text-reset">
-              <h5 className="card-title mb-2">Denim shirt</h5>
+              <h5 className="card-title mb-2">Watermelon</h5>
             </a>
             <a href="" className="text-reset ">
-              <p>Shirt</p>
+              <p>Fruits</p>
             </a>
-            <h6 className="mb-3 price">120$</h6>
+            <h6 className="mb-3 price">sh190</h6>
           </div>
         </div>
       </div>
@@ -409,83 +409,7 @@ console.log(auth)
 
 </main>
 
-<footer className="text-center text-white mt-4 footer" >
-  
-  {/* <!--Call to action--> */}
-    <div className="pt-4 pb-2">
-      <a className="btn btn-outline-white footer-cta mx-2" href="https://mdbootstrap.com/docs/jquery/getting-started/download/" target="_blank" role="button">Download MDB
-        <i className="fas fa-download ms-2"></i>
-      </a>
-      <a className="btn btn-outline-white footer-cta mx-2" href="https://mdbootstrap.com/education/bootstrap/" target="_blank" role="button">Start free tutorial
-        <i className="fas fa-graduation-cap ms-2"></i>
-      </a>
-    </div>
-    {/* <!--/.Call to action--> */}
-  
-  <hr className="text-dark" />
-  
-  <div className="container">
-    {/* <!-- Section: Social media --> */}
-    <section className="mb-3">
-      
-      {/* <!-- Facebook --> */}
-      <a
-        className="btn-link btn-floating btn-lg text-white"
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="dark"
-        ><i className="fab fa-facebook-f"></i></a>
 
-      {/* <!-- Twitter --> */}
-      <a
-        className="btn-link btn-floating btn-lg text-white"
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="dark"
-        ><i className="fab fa-twitter"></i></a>
-
-      {/* <!-- Google --> */}
-      <a
-        className="btn-link btn-floating btn-lg text-white"
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="dark"
-        ><i className="fab fa-google"></i></a>
-
-      {/* <!-- Instagram --> */}
-      <a
-        className="btn-link btn-floating btn-lg text-white"
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="dark"
-        ><i className="fab fa-instagram"></i></a>
-
-      {/* <!-- YouTube --> */}
-      <a
-        className="btn-link btn-floating btn-lg text-white"
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="dark"
-        ><i className="fab fa-youtube"></i></a>
-      {/* <!-- Github --> */}
-      <a
-        className="btn-link btn-floating btn-lg text-white"
-        href="#!"
-        role="button"
-        data-mdb-ripple-color="dark"
-        ><i className="fab fa-github"></i></a>
-    </section>
-    {/* <!-- Section: Social media --> */}
-  </div>
-  {/* <!-- Grid container --> */}
-
-  {/* <!-- Copyright --> */}
-  <div className="text-center p-3 c_right" >
-    © 2023 Copyright:
-    <a className="text-white" href="">DigitalMarket.com</a>
-  </div>
-  {/* <!-- Copyright --> */}
-</footer>
 
         </>
   )

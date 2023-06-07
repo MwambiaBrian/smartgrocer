@@ -8,8 +8,14 @@ export default function () {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const auth = useSelector((state: RootState) => state.auth);
-
-     const [reg_user, setReg_user] = useState({
+   useEffect(() => {
+    if (auth._id) {
+      console.log(auth)
+      navigate("/home");
+    }
+  }, [auth._id, navigate]);
+//console.log(auth)
+    const [reg_user, setReg_user] = useState({
     name: "",
     email: "",
     password: "",
@@ -20,11 +26,7 @@ export default function () {
     email: "",
     password: "",
   });
- useEffect(() => {
-    if (auth._id) {
-      navigate("/home");
-    }
-  }, [auth._id, navigate]);
+
   let [authMode, setAuthMode] = useState("signin")
 
   const changeAuthMode = () => {
@@ -36,15 +38,17 @@ export default function () {
 
   // useEffect(() => {
   //   if (auth._id) {
-  //     navigate("/cart");
+  //     navigate("/home");
   //   }
   // }, [auth._id, navigate]);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    console.log(user);
+    console.log(auth);
     dispatch(loginUser(user));
+    console.log(auth)
+         
   };
     return (
       <div className="Auth-form-container">
@@ -89,7 +93,7 @@ export default function () {
         </form>
       </div>
     )
-  } else{ 
+  } 
 
 
  
@@ -149,7 +153,7 @@ export default function () {
        
         </div>
       </form>
-    </div>)}
+    </div>)
 
 
   

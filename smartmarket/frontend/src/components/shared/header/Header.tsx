@@ -23,7 +23,7 @@ function Header() {
     {/* <!-- Collapsible wrapper --> */}
     <div className="collapse navbar-collapse" id="navbarSupportedContent1">      
       {/* <!-- Navbar brand --> */}
-      <a className="navbar-brand mt-2 mt-sm-0" href="https://mdbootstrap.com/">
+      <a className="navbar-brand mt-2 mt-sm-0" href="#">
         <img
           src=""
           height="20"
@@ -34,16 +34,16 @@ function Header() {
       {/* <!-- Left links --> */}
       <ul className="navbar-nav me-auto mb-2 mb-lg-0">
         <li className="nav-item active">
-          <a className="nav-link " href="https://mdbootstrap.com/">Home</a>
+          <a className="nav-link " href="#">Home</a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="https://mdbootstrap.com/docs/standard/">About Smartmaket</a>
+          <a className="nav-link" href="#">Business</a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="https://mdbootstrap.com/docs/standard/getting-started/installation/">SmartMarket</a>
+          <a className="nav-link" href="#">Transport</a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="https://mdbootstrap.com/education/bootstrap/">Smartmarket</a>
+          <a className="nav-link" href="#">About smartmrktt</a>
         </li>
       </ul>
       {/* <!-- Left links -->       */}

@@ -6,6 +6,7 @@ import { url, setHeaders} from "./api";
 interface User {
   name: string;
   email: string;
+  role: string,
   id: string;
 }
 
@@ -14,6 +15,8 @@ interface AuthState {
   name: string;
   email: string;
   _id: string;
+  
+ 
   registerStatus: string;
   registerError: string;
   loginStatus: string;
@@ -61,13 +64,13 @@ export const loginUser = createAsyncThunk<string, LoginUserValues, { rejectValue
   "auth/loginUser",
   async (values, { rejectWithValue }) => {
     try {
-      const response = await axios.post<string>(`${url}/signin`, {
+      const response = await axios.post(`${url}/signin`, {
         email: values.email,
         password: values.password,
       });
 
-      localStorage.setItem("token", response.data);
-      return response.data;
+      localStorage.setItem("token", response.data.token);
+      return response.data.token;
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.log(error.response?.data);
@@ -160,6 +163,9 @@ const authSlice = createSlice({
         state._id=user.id
         state.registerStatus="success"
         state.token=action.payload;
+      
+        
+        console.log(state._id)
         return state
       } else return state;
     });
@@ -177,14 +183,16 @@ const authSlice = createSlice({
       if (action.payload) {
         const user = jwtDecode<User>(action.payload);
         console.log(user)
-        return {
-          ...state,
-          token: action.payload,
-          name: user.name,
-          email: user.email,
-          _id: user.id,
-          loginStatus: "success",
-        };
+       
+        state.name=user.name
+        state.email=user.email
+       
+        state._id=user.id
+        state.loginStatus = "success"
+        state.token=action.payload;
+        console.log(state._id)
+        return state
+      
       } else return state;
     });
     builder.addCase(loginUser.rejected, (state, action) => {

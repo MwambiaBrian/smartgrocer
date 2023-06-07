@@ -1,21 +1,23 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import React from "react";
+import { useSelector } from "react-redux";
+import { Navigate, useLocation } from "react-router-dom";
+import { RootState } from "../../Store";
 
-type ProtectedRouteProps = {
-  isAllowed: boolean;
-  redirectPath?: string;
-  children?: React.ReactNode;
+type Props = {
+  children: JSX.Element;
 };
 
-function ProtectedRoute({
-  isAllowed,
-  redirectPath = '/landing',
-  children,
-}: ProtectedRouteProps) {
-  if (!isAllowed) {
-    return <Navigate to={redirectPath} replace />;
-  }
+const Protected: React.FC<Props> = ({ children }) => {
+  const {_id} = useSelector((state: RootState) => state.auth);
 
-  return children ? children : <Outlet />;
-}
+  //const { isAuthenticated } = useAuth();
+  const location = useLocation().pathname;
 
-export default ProtectedRoute;
+  return _id ? (
+    children
+  ) : (
+    <Navigate to={"/auth"} state={{ from: location }} replace />
+  );
+};
+
+export default Protected;
