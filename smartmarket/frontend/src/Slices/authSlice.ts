@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import jwtDecode from "jwt-decode";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios from "axios";
 import { url, setHeaders} from "./api";
 
 interface User {
