@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react"
+
+
 import './Auth.css'
-import { useDispatch, useSelector } from "react-redux";
+
+/*React-router for browser routing*/ 
 import { useNavigate } from "react-router-dom";
-import { loginUser, registerUser } from "../../../Slices/authSlice";
+
+/*React-redux with redux-toolkit */ 
+import { useDispatch, useSelector } from "react-redux";
+
+/*Redux-toolkit*/ 
 import { AppDispatch, RootState } from "../../../Store";
+import { loginUser, registerUser } from "../../../Slices/authSlice";
+
 export default function () {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
@@ -11,7 +20,7 @@ export default function () {
    useEffect(() => {
     if (auth._id) {
       console.log(auth)
-      navigate("/home");
+      navigate("/");
     }
   }, [auth._id, navigate]);
 //console.log(auth)

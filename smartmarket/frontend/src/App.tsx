@@ -16,7 +16,7 @@ import Header from './components/shared/header/Header'
 
 import Auth from './features/authentication/Routes';
 
-import Dashboard from "./features/dashboard/Dashboard";
+import Dashboard from "./features/dashboard/AdminDashboard";
 import { useState } from "react";
 
 // const router = createBrowserRouter(

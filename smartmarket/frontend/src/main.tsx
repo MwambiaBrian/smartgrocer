@@ -31,6 +31,9 @@ import Unauthorized from './features/authentication/Unauthorized';
 
 import { loadUser } from './Slices/authSlice';
 import Protected from './features/authentication/Protected';
+import AdminDashboard from './features/dashboard/AdminDashboard';
+import SellerDashboard from './features/dashboard/SellerDashboard';
+import DriverDashboard from './features/dashboard/DriverDashboard';
 
 
 store.dispatch(loadUser())
@@ -41,8 +44,10 @@ const router = createBrowserRouter([
     element: <App />,
   
     children:[
+
     {
-      path: "home",
+      index:true,
+     
       // element:<Landing /> 
       element:<Protected><Landing /></Protected> 
     
@@ -56,8 +61,23 @@ const router = createBrowserRouter([
       path: "product",
       element: <Product />
     
-    }
+    },
     
+    {
+      path: "admin-dashboard",
+      element:<Protected><AdminDashboard /></Protected> 
+    
+    },
+    {
+      path: "seller-dashboard",
+      element:<Protected><SellerDashboard /></Protected> 
+    
+    },
+    {
+      path: "driver-dashboard",
+      element: <Protected><DriverDashboard /></Protected> 
+    
+    }
     ]
 
   },
@@ -74,7 +94,7 @@ const router = createBrowserRouter([
         {
           path: "/auth",
           element: <Unauthorized><Auth /></Unauthorized>
-          
+          // element: <Auth />
         },
         {
           path: "reset",
@@ -84,13 +104,13 @@ const router = createBrowserRouter([
     
   },
   { 
-    path:'/business',
+   
     element: <App/>,
     
       children: [
       
         {
-          path: "create",
+          path: "business",
           element: <BusinessForm />,
         },
         {
@@ -140,7 +160,7 @@ const router = createBrowserRouter([
     
   },
   { 
-    path:'/admin',
+  
     element: <App/>,
     
       children: [

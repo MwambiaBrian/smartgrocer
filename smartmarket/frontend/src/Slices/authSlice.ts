@@ -123,7 +123,7 @@ const authSlice = createSlice({
 
       if (token) {
         const user = jwtDecode<User>(token);
-        console.log(user)
+        console.log(`loaded user: ${user.name}`)
         return {
           ...state,
           token,

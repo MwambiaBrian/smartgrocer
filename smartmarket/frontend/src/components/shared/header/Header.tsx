@@ -1,6 +1,19 @@
+/*Redux-toolkit*/ 
+import { useSelector } from "react-redux";
+import { logoutUser } from "../../../Slices/authSlice";
+
 
 import './Header.css'
-function Header() {
+import { RootState, store } from "../../../Store";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+function Header() { 
+  const auth = useSelector((state: RootState) => state.auth);
+  const logout = () => {
+
+    store.dispatch(logoutUser());
+   
+  };
   return (
     <>
      {/* <!-- Navbar --> */}
@@ -53,13 +66,24 @@ function Header() {
     {/* <!-- Right elements --> */}
     <div className="d-flex align-items-center">
       {/* <!-- Icon --> */}
+
       <a className="nav-link me-3" href="#">
-        <i className="fas fa-shopping-cart"></i>
+      {auth._id ?   
+    <span className="">
+  
+      {`Hello ${auth.name}`}</span> : <p>Please log in.</p>}
+  
+  </a>
+      <a className="nav-link me-3" href="#">
+      <FontAwesomeIcon icon={ faShoppingCart} />
         <span className="badge rounded-pill badge-notification bg-danger">1</span>
       </a>
+       {/* <!-- Icon --> */}
 
-   
-    
+      {auth._id ?  <button onClick={logout} >
+       logout
+      </button> : <p>Please log in.</p>}
+      
   
     </div>
     {/* <!-- Right elements --> */}
@@ -74,3 +98,4 @@ function Header() {
 }
 
 export default Header
+

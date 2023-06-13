@@ -15,7 +15,7 @@ const UnAuthenticated: React.FC<Props> = ({ children }) => {
     const {_id} = useSelector((state: RootState) => state.auth);
   //const { isAuthenticated } = useAuth();
 
-  return !_id ? children : <Navigate to={"/home"} replace />;
+  return !_id ? children : <Navigate to={"/"} replace />;
 };
 
 export default UnAuthenticated;

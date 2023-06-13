@@ -33,6 +33,7 @@ controller.post('/register', async (req, res) => {
       }, 
       'mysecretkey');
     res.json({token});
+    console.log(`${user?.name}  registered ${newuser}`)
   //  res.json({"sign up":"successful"});
      // res.json({user});
   } catch (err: any) {
@@ -46,7 +47,7 @@ controller.post("/login", async (req, res)=>{
   try {
        const { email, password } = req.body;
        const user = await getUserByname(email);
-      // console.log(user)
+     
        if (!user) throw new Error('User not found');
        const isPasswordValid = await bcrypt.compare(password, user.password);
        if (!isPasswordValid) throw new Error('Invalid password');
@@ -57,8 +58,9 @@ controller.post("/login", async (req, res)=>{
           email: user.email
         }, 
         'mysecretkey');
+       
        res.json({"token":token});
-    //  res.json({"login":"successful"});
+       console.log(`${user?.name} has logged in ${user}`)
     } catch (err: any) {
       res.status(401).send(err.message);
     }
@@ -83,32 +85,19 @@ controller.post('/resetpassword', async (req, res) => {
   }) 
 
   
-controller.post("/verify", async (req, res)=>{
+controller.post("/twillioverify", async (req, res)=>{
     try {
-      //   const { username, email, password, address} = req.body;
-      //  register()
-      //   const user = new Customer({ username, email, password,address});
-     
-      //   await user.save();
-      //   console.log(user.__t)
-      //   const token = jwt.sign({ userId: user._id, userRole: user.__t }, 'mysecretkey');
-      //   res.status(201).json({ token });
+    //send a verification code
       res.json({"verification":"successful"});
       } catch (err) {
        // res.status(500).send(err.message);
       }
     
     }) 
+
     controller.post("/authenticate", async (req, res)=>{
       try {
-        //   const { username, email, password, address} = req.body;
-        //  register()
-        //   const user = new Customer({ username, email, password,address});
-       
-        //   await user.save();
-        //   console.log(user.__t)
-        //   const token = jwt.sign({ userId: user._id, userRole: user.__t }, 'mysecretkey');
-        //   res.status(201).json({ token });
+    // verify token
         res.json({"authenticated":"successful"});
         } catch (err) {
          // res.status(500).send(err.message);
