@@ -1,103 +1,132 @@
-import React from 'react'
-import './Product.css'
- function Product() {
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCart,
+  clearCart,
+  decreaseCart,
+  getTotals,
+  removeFromCart,
+} from "../../Slices/cartSlice";
+
+import { Link } from "react-router-dom";
+import { RootState } from "../../Store";
+
+const Cart = () => {
+  const cart = useSelector((state: RootState) => state.cart);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getTotals());
+  }, [cart, dispatch]);
+
+  const handleAddToCart = (product: any) => {
+    dispatch(addToCart(product));
+  };
+  const handleDecreaseCart = (product: any) => {
+    dispatch(decreaseCart(product));
+  };
+  const handleRemoveFromCart = (product: any) => {
+    dispatch(removeFromCart(product));
+  };
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
   return (
-    <>
-    {/* <!--Main layout--> */}
-<main className="mt-5 pt-4">
-    <div className="container mt-5">
-        {/* <!--Grid row--> */}
-        <div className="row">
-            {/* <!--Grid column--> */}
-            <div className="col-md-6 mb-4">
-                <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/14.jpg" className="img-fluid" alt="" />
-            </div>
-            {/* <!--Grid column--> */}
-
-            {/* <!--Grid column--> */}
-            <div className="col-md-6 mb-4">
-                {/* <!--Content--> */}
-                <div className="p-4">
-                    <div className="mb-3">
-                        <a href="">
-                            <span className="badge bg-dark me-1">Category 2</span>
-                        </a>
-                        <a href="">
-                            <span className="badge bg-info me-1">New</span>
-                        </a>
-                        <a href="">
-                            <span className="badge bg-danger me-1">Bestseller</span>
-                        </a>
+    <div className="cart-container">
+      <h2>Shopping Cart</h2>
+      {cart.cartItems.length === 0 ? (
+        <div className="cart-empty">
+          <p>Your cart is currently empty</p>
+          <div className="start-shopping">
+            <Link to="/">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                className="bi bi-arrow-left"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
+                />
+              </svg>
+              <span>Start Shopping</span>
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <div>
+          <div className="titles">
+            <h3 className="product-title">Product</h3>
+            <h3 className="price">Price</h3>
+            <h3 className="quantity">Quantity</h3>
+            <h3 className="total">Total</h3>
+          </div>
+          <div className="cart-items">
+            {cart.cartItems &&
+              cart.cartItems.map((cartItem: any) => (
+                <div className="cart-item" key={cartItem.id}>
+                  <div className="cart-product">
+                    <img src={cartItem.img} alt={cartItem.name} />
+                    <div>
+                      <h3>{cartItem.name}</h3>
+                      <p>{cartItem.desc}</p>
+                      <button onClick={() => handleRemoveFromCart(cartItem)}>
+                        Remove
+                      </button>
                     </div>
-
-                    <p className="lead">
-                        <span className="me-1">
-                            <del>$200</del>
-                        </span>
-                        <span>$100</span>
-                    </p>
-
-                    <strong><p className='descr'>Description</p></strong>
-
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et dolor suscipit libero eos atque quia ipsa sint voluptatibus! Beatae sit assumenda asperiores iure at maxime atque repellendus maiores quia sapiente.</p>
-
-                    <form className="d-flex justify-content-left">
-                        {/* <!-- Default input --> */}
-                        <div className="form-outline me-1 form">
-                            <input type="number" value="1" className="form-control" />
-                        </div>
-                        <button className="btn btn-primary ms-1" type="submit">
-                            Add to cart
-                            <i className="fas fa-shopping-cart ms-1"></i>
-                        </button>
-                    </form>
+                  </div>
+                  <div className="cart-product-price">${cartItem.price}</div>
+                  <div className="cart-product-quantity">
+                    <button onClick={() => handleDecreaseCart(cartItem)}>
+                      -
+                    </button>
+                    <div className="count">{cartItem.cartQuantity}</div>
+                    <button onClick={() => handleAddToCart(cartItem)}>+</button>
+                  </div>
+                  <div className="cart-product-total-price">
+                    ${cartItem.price * cartItem.cartQuantity}
+                  </div>
                 </div>
-                {/* <!--Content--> */}
+              ))}
+          </div>
+          <div className="cart-summary">
+            <button className="clear-btn" onClick={() => handleClearCart()}>
+              Clear Cart
+            </button>
+            <div className="cart-checkout">
+              <div className="subtotal">
+                <span>Subtotal</span>
+                <span className="amount">${cart.cartTotalAmount}</span>
+              </div>
+              <p>Taxes and shipping calculated at checkout</p>
+              <button>Check out</button>
+              <div className="continue-shopping">
+                <Link to="/">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    className="bi bi-arrow-left"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
+                    />
+                  </svg>
+                  <span>Continue Shopping</span>
+                </Link>
+              </div>
             </div>
-            {/* <!--Grid column--> */}
+          </div>
         </div>
-        {/* <!--Grid row--> */}
-
-        <hr />
-
-        {/* <!--Grid row--> */}
-        <div className="row d-flex justify-content-center">
-            {/* <!--Grid column--> */}
-            <div className="col-md-6 text-center">
-                <h4 className="my-4 h4">Additional information</h4>
-
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus suscipit modi sapiente illo soluta odit voluptates, quibusdam officia. Neque quibusdam quas a quis porro? Molestias illo neque eum in laborum.</p>
-            </div>
-            {/* <!--Grid column--> */}
-        </div>
-        {/* <!--Grid row--> */}
-
-        {/* <!--Grid row--> */}
-        <div className="row">
-            {/* <!--Grid column--> */}
-            <div className="col-lg-4 col-md-12 mb-4">
-                <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" className="img-fluid" alt="" />
-            </div>
-            {/* <!--Grid column--> */}
-
-            {/* <!--Grid column--> */}
-            <div className="col-lg-4 col-md-6 mb-4">
-                <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg" className="img-fluid" alt="" />
-            </div>
-            {/* <!--Grid column--> */}
-
-            {/* <!--Grid column--> */}
-            <div className="col-lg-4 col-md-6 mb-4">
-                <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" className="img-fluid" alt="" />
-            </div>
-            {/* <!--Grid column--> */}
-        </div>
-        {/* <!--Grid row--> */}
+      )}
     </div>
-</main>
-{/* <!--Main layout--> */}
-    </>
-  )
-}
+  );
+};
 
-export default Product
+export default Cart;

@@ -39,7 +39,7 @@ export const registerUser = createAsyncThunk<string, RegisterUserValues, { rejec
   "auth/registerUser",
   async (values, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${url}/signup`, {
+      const response = await axios.post(`${url}/auth/signup`, {
         name: values.name,
         email: values.email,
         password: values.password,
@@ -64,7 +64,7 @@ export const loginUser = createAsyncThunk<string, LoginUserValues, { rejectValue
   "auth/loginUser",
   async (values, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${url}/signin`, {
+      const response = await axios.post(`${url}/auth/signin`, {
         email: values.email,
         password: values.password,
       });
@@ -86,7 +86,7 @@ export const getUser = createAsyncThunk<string, string, { rejectValue: string }>
   "auth/getUser",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.get<string>(`${url}/user/${id}`, setHeaders());
+      const response = await axios.get<string>(`${url}/users/${id}`, setHeaders());
 
       localStorage.setItem("token", response.data);
 

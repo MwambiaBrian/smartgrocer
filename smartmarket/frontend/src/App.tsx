@@ -11,12 +11,10 @@ import {
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
-import Footer from './components/shared/footer/Footer'
-import Header from './components/shared/header/Header'
+import Footer from './Shared/footer/Footer'
+import Header from './Shared/header/Header'
 
-import Auth from './features/authentication/Routes';
 
-import Dashboard from "./features/dashboard/AdminDashboard";
 import { useState } from "react";
 
 // const router = createBrowserRouter(

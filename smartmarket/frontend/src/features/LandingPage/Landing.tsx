@@ -4,9 +4,22 @@ import { AppDispatch, RootState } from '../../Store';
 import { useDispatch, useSelector } from 'react-redux';
 import DisplayProduct from '../Product/DisplayProduct';
 
+import { addToCart, getTotals } from '../../Slices/cartSlice';
+
+
 function Landing() {
+  const dispatch = useDispatch();
   const auth = useSelector((state: RootState) => state.auth);
-console.log(auth)
+  const {data} = useSelector((state: RootState) => state.products);
+
+console.log(data)
+
+
+const handleAddToCart = (product: any) => {
+  dispatch(addToCart(product));
+  dispatch(getTotals());
+};
+
 
   return (
     <>
@@ -168,35 +181,41 @@ console.log(auth)
   <section>
   <div className="text-center">
     <div className="row">
-    <DisplayProduct />
-    <DisplayProduct />
-      <DisplayProduct />
-      <DisplayProduct />
+
+      {data.map(product=>  <div key={product._id} className="col-lg-3 col-md-6 mb-4">
+        <div className="card">
+          <div className="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+            data-mdb-ripple-color="light">
+            <img src={product.img}
+              className="w-100" />
+            <a href="#!">              
+              <div className="hover-overlay">
+                <div className="mask mask_"></div>
+              </div>
+            </a>
+          </div>
+          <div className="card-body">
+            <a href="" className="text-reset">
+              <h5 className="card-title mb-2">{product.name}</h5>
+            </a>
+            <a href="" className="text-reset ">
+              <p>{product.category}</p>
+            </a>
+            <h6 className="mb-3 price">{`Sh ${product.price}`}</h6>
+            <button className="btn btn-primary ms-1" onClick={() => handleAddToCart(product)}>
+                            Add to cart
+                            <i className="fas fa-shopping-cart ms-1"></i>
+                        </button>
+          </div>
+        </div>
+      </div>
+)}
+    
+ 
    
     </div>
 
-    <div className="row">
-    <DisplayProduct />
-    <DisplayProduct />
-      <DisplayProduct />
-      <DisplayProduct />
-     
-    </div>
-    <div className="row">
-    <DisplayProduct />
-    <DisplayProduct />
-      <DisplayProduct />
-      <DisplayProduct />
-     
-    </div>
-
-    <div className="row">
-    <DisplayProduct />
-    <DisplayProduct />
-      <DisplayProduct />
-      <DisplayProduct />
-     
-    </div>
+ 
   </div>
 </section>
 {/* <!-- Pagination --> */}

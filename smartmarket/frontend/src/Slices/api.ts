@@ -1,5 +1,5 @@
 
-export const url = "http://localhost:9000/auth";
+export const url = "http://localhost:9000";
 
 export const setHeaders = () => {
   const headers = {
