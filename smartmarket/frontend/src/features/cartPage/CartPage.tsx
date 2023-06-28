@@ -8,10 +8,14 @@ import {
   removeFromCart,
 } from "../../Slices/cartSlice";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RootState } from "../../Store";
 
+
+
 const Cart = () => {
+
+  const navigate = useNavigate();
   const cart = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
 
@@ -31,6 +35,11 @@ const Cart = () => {
   const handleClearCart = () => {
     dispatch(clearCart());
   };
+
+  const checkout = () => {
+    navigate("/checkout")
+
+  }
   return (
     <div className="cart-container">
       <h2>Shopping Cart</h2>
@@ -102,7 +111,7 @@ const Cart = () => {
                 <span className="amount">${cart.cartTotalAmount}</span>
               </div>
               <p>Taxes and shipping calculated at checkout</p>
-              <button>Check out</button>
+              <button onClick={() => checkout()}>Check out</button>
               <div className="continue-shopping">
                 <Link to="/">
                   <svg

@@ -1,6 +1,30 @@
 import React from 'react'
 import './Checkout.css'
+import axios from 'axios';
+import { createOrder } from '../../api/orderApi';
+import { QueryClient, useMutation } from 'react-query';
 function Checkout() {
+
+
+    const queryClient = new QueryClient()
+    {
+      const createOrderMutation = useMutation(createOrder, {
+        onSuccess: () => {
+          //invalidate cache and refetch
+          queryClient.invalidateQueries("orders")
+        }
+      })
+    }
+
+    
+const handleCheckout = async () => {
+// create an order after reaching safaricom for payment
+//const response = await axios.post(`${url_api}/order/`, setHeaders());
+
+
+}
+
+
   return (
     <>
       {/* <!--Main layout--> */}
@@ -15,11 +39,8 @@ function Checkout() {
             <div className="col-md-8 mb-4">
                 {/* <!--Card--> */}
                 <div className="card p-4">
-                    {/* <!--Grid row--> */}
                     <div className="row mb-3">
-                        {/* <!--Grid column--> */}
                         <div className="col-md-6 mb-2">
-                            {/* <!--firstName--> */}
                             <div className="form-outline">
                                 <input type="text" id="typeText" className="form-control" />
                                 <label className="form-label" >First name</label>
@@ -121,33 +142,22 @@ function Checkout() {
                     <hr />
 
                     <div className="my-3">
-                        <div className="form-check">
-                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked />
-                            <label className="form-check-label" > Credit card </label>
-                        </div>
+                  
 
                         <div className="form-check">
                             <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
-                            <label className="form-check-label" > Debit card </label>
+                            <label className="form-check-label" > M-Pesa </label>
                         </div>
                         <div className="form-check">
                             <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" />
-                            <label className="form-check-label" > Paypal </label>
+                            <label className="form-check-label" > Pay on Delivery </label>
                         </div>
                     </div>
                     <div className="row mb-3">
+                       
                         <div className="col-md-6 mb-3">
                             <p className="mb-0">
-                                Name on card
-                            </p>
-                            <div className="form-outline">
-                                <input type="text" className="form-control"/>
-                                <div className="form-helper">Full name as displayed on card</div>
-                            </div>
-                        </div>
-                        <div className="col-md-6 mb-3">
-                            <p className="mb-0">
-                                Credit card number
+                                Phone number
                             </p>
                             <div className="form-outline">
                                 <input type="text" className="form-control" />                                
@@ -155,24 +165,8 @@ function Checkout() {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-3 mb-3">
-                            <p className="mb-0">
-                                Expiration
-                            </p>
-                            <div className="form-outline">
-                                <input type="text" className="form-control" />
-                                
-                            </div>
-                        </div>
-                        <div className="col-md-3 mb-3">
-                            <p className="mb-0">
-                                CVV
-                            </p>
-                            <div className="form-outline">
-                                <input type="text" className="form-control" />
-                                
-                            </div>
-                        </div>
+                    
+                        
                     </div>
                     <hr className="mb-4" />                    
                   <button className="btn btn-primary" type="button">Continue to checkout</button>
@@ -212,13 +206,7 @@ function Checkout() {
                         </div>
                         <span className="text-muted">$5</span>
                     </li>
-                    <li className="list-group-item d-flex justify-content-between bg-light">
-                        <div className="text-success">
-                            <h6 className="my-0">Promo code</h6>
-                            <small>EXAMPLECODE</small>
-                        </div>
-                        <span className="text-success">-$5</span>
-                    </li>
+               
                     <li className="list-group-item d-flex justify-content-between">
                         <span>Total (USD)</span>
                         <strong>$20</strong>
@@ -226,22 +214,7 @@ function Checkout() {
                 </ul>
                 {/* <!-- Cart --> */}
 
-                {/* <!-- Promo code --> */}
-                <form className="card p-2">
-                    <div className="input-group mb-3">
-  <input
-    type="text"
-    className="form-control"
-    placeholder="Promo code"
-    aria-label="Promo code"
-    aria-describedby="button-addon2"
-  />
-  <button className="btn btn-primary" type="button" id="button-addon2" data-mdb-ripple-color="dark">
-    redeem
-  </button>
-</div>
-                </form>
-                {/* <!-- Promo code --> */}
+ 
             </div>
             {/* <!--Grid column--> */}
         </div>

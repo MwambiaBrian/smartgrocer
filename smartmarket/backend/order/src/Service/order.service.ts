@@ -6,10 +6,9 @@ class OrderService {
 
     /**create a order */
 
-    public async create(items: string, buyer: string, totalAmount: number, sellers: string) {
+    public async create(products: [], buyerId: string,subtotal: number, totalAmount: number, shipping: object, payment_status: string,) {
         try {
-            console.log(name)
-            const order = await this.order.create({items, buyer, sellers, totalAmount}); 
+            const order = await this.order.create({products, buyerId, subtotal,totalAmount, shipping, payment_status}); 
             return order;
         } catch(error) {
             console.log(error)

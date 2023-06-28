@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { PrimaryButton } from "./CommonStyled";
 import { createProduct } from "../../Slices/ProductsSlice";
 import { AppDispatch, RootState } from "../../Store";
+import { QueryClient, useMutation } from "react-query";
+import { addProduct } from "../../api/productsApi";
 
 const CreateProduct = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -20,6 +22,15 @@ const CreateProduct = () => {
     desc: ""
   });
 
+  const queryClient = new QueryClient()
+{
+  const addProductMutation = useMutation(addProduct, {
+    onSuccess: () => {
+      //invalidate cache and refetch
+      queryClient.invalidateQueries("products")
+    }
+  })}
+//   c
   const handleProductImageUpload = (e: any) => {
     const file = e.target.files[0];
 

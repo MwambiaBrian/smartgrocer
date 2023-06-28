@@ -7,6 +7,7 @@ import './Header.css'
 import { RootState, store } from "../../Store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 function Header() { 
   const dispatch = useDispatch();
@@ -55,16 +56,16 @@ function Header() {
       {/* <!-- Left links --> */}
       <ul className="navbar-nav me-auto mb-2 mb-lg-0">
         <li className="nav-item active">
-          <a className="nav-link " href="#">Home</a>
+          <Link className="nav-link " to="/">Home</Link>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#">Business</a>
+        <Link className="nav-link " to="/business">New Business</Link>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#">Transport</a>
+        <Link className="nav-link " to="/transport">New Transport</Link>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#">About smartmrktt</a>
+        <Link className="nav-link " to="/business">About Smartmarket</Link>
         </li>
       </ul>
       {/* <!-- Left links -->       */}
@@ -75,22 +76,23 @@ function Header() {
     <div className="d-flex align-items-center">
       {/* <!-- Icon --> */}
 
-      <a className="nav-link me-3" href="#">
+      <Link className="nav-link me-3" to="/">
       {auth._id ?   
     <span className="">
+      
   
       {`Hello ${auth.name}`}</span> : <p>Please log in.</p>}
   
-  </a>
-      <a className="nav-link me-3" href="#">
+  </Link>
+      <Link className="nav-link me-3" to="/cart">
       <FontAwesomeIcon icon={ faShoppingCart} />
         <span className="badge rounded-pill badge-notification bg-danger">{cartTotalQuantity}</span>
-      </a>
+      </Link>
        {/* <!-- Icon --> */}
 
       {auth._id ?  <button onClick={logout} >
        logout
-      </button> : <p>Please log in.</p>}
+      </button> : <Link to="/auth"><p>Please log in.</p></Link>}
       
   
     </div>

@@ -1,128 +1,172 @@
-import {Router, Response,Request, NextFunction} from 'express';
+import { Router, Response, Request, NextFunction } from 'express';
 import Controller from '../utils/interfaces/controller.interface';
 import HttpException from '../utils/exceptions/http.exception';
 import validationMiddleware from '../middlewares/error.middleware';
-import validate from './order.validate'
+import validate from './order.validate';
 import OrderService from '../Service/order.service';
-import axios from 'axios'
-import token from '../middlewares/getToken'
-
-
+import axios from 'axios';
+import token from '../middlewares/getToken';
 
 class OrderController implements Controller {
-    public path = '/order'
-    public router = Router();
-    private order = new OrderService
+  public path = '/order';
+  public router = Router();
+  private order = new OrderService();
+  private token = null;
 
-    constructor() {
-        this.initialiseRoutes();
-       
+  constructor() {
+    this.initialiseRoutes();
+  }
+
+  private initialiseRoutes(): void {
+    this.router.post(
+      `${this.path}`,
+      this.createOrderMiddleware,
+      this.createOrder
+    );
+    this.router.post(`${this.path}/callback`, this.darajaCallback);
+  }
+
+  private createOrderMiddleware = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
+    try {
+      await this.createToken();
+      next();
+    } catch (error: any) {
+      next(new HttpException(400, error.message));
     }
-    private initialiseRoutes(): void {
-        this.router.post(
-            `${this.path}`,
-           
-           this.createOrder,
-          
-           
-        );
-        this.router.post(
-            `${this.path}/callback_url`,
-           
-           this.darajaCallback,
-          
-           
-        );
-       
-       
+  };
+
+  private createOrder = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
+    try {
+      const { phoneNumber, products, buyerId, subtotal, totalamount, shipping } = req.body;
+      const orderPayload = {
+        products,
+        buyerId,
+        subtotal,
+        totalamount,
+        shipping,
+      };
+
+      const metadata = JSON.stringify(orderPayload);
+
+      console.log(`from endpoint ${totalamount}`)
+      await this.stkPush(phoneNumber, totalamount,metadata);
+    //   const payment_status = 'processing';
+    //   const order = await this.order.create(
+    //     products,
+    //     buyerId,
+    //     subtotal,
+    //     totalamount,
+    //     shipping,
+    //     payment_status
+    //   );
+      //console.log(order);
+      return res.json({  });
+    } catch (error: any) {
+      next(new HttpException(400, error.message));
     }
+  };
 
-    private  createOrder =  async(
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ): Promise<Response |void> =>{
-        try {
-            const {phoneNumber, amount} = req.body;
-            this.stkPush(phoneNumber, amount)
-           // this.order.create()
-            // console.log(name)
-            // const newbusiness = await this.business.create(name, businessEmail, ownerId, desc)
-            // const newbusiness = await this.business.create(name, businessEmail,  ownerId, desc);
-             //res.json({ newbusiness}) 
-        } catch(error: any) {
-            next(new HttpException(400, error.message))
-        }
+  private stkPush = async (phoneNumber: string, amount: string, metadata: any) => {
 
-    }
+    console.log(amount)
+    const shortCode = 174379;
+    const phone = phoneNumber.substring(1);
+    const passkey = 'bfb279fbdbcf1...';
+    const url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+    const date = new Date();
+    const timestamp =
+      date.getFullYear() +
+      ('0' + (date.getMonth() + 1)).slice(-2) +
+      ('0' + (date.getDate() + 1)).slice(-2) +
+      ('0' + (date.getHours() + 1)).slice(-2) +
+      ('0' + (date.getMinutes() + 1)).slice(-2) +
+      ('0' + (date.getSeconds() + 1)).slice(-2);
 
-private stkPush = async ( phoneNumber: string, amount: number)=>{
 
-    const shortCode = 174379
-    const phone = phoneNumber.substring(1)
+    
+    const data = {
+      BusinessShortCode: shortCode,
+      Password: "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMTYwMjE2MTY1NjI3",
+    //   Timestamp: timestamp,
+    Timestamp:"20160216165627",
+      TransactionType: 'CustomerPayBillOnline',
+      Amount: amount,
+      PartyA: `254${phone}`,
+      PartyB: 174379,
+      PhoneNumber: `254${phone}`,
+      CallBackURL: "https://7d9c-102-219-210-201.ngrok-free.app/api/order/callback",
+      AccountReference: 'Test',
+      TransactionDesc: 'Test',
+    //   metadata: metadata,
+    };
 
-    const passkey = "bfb279fbdbcf1..."
-    const url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest";
-     const date = new Date();
-     const timestamp = 
-     date.getFullYear() +
-     ("0" + (date.getMonth() +1)).slice(-2) +
-     ("0" + (date.getDate() +1)).slice(-2) +
-     ("0" + (date.getHours() +1)).slice(-2) +
-     ("0" + (date.getMinutes() +1)).slice(-2) +
-     ("0" + (date.getSeconds() +1)).slice(-2) 
+    try {
 
-     //const password = new Buffer.from(shortCOde + passkey + timestamp).toString("base64");
-
-     const data = {
-        BusinessShortCode: shortCode,
-      //  Password: password,
-        Timestamp: timestamp,
-        TransactionType: "CustomerPayBillOnline",
-        Amount: amount,
-        PartyA: `254${phone}`,
-        PartyB: 174379,
-        PhoneNumber: `254${phone}`,
-        callBackURL: "https://mydomain/callback_url",
-        AccountReference: "Digital-Market",
-        TransactionDesc: "Order payment"
-
-     };
-
-     await axios.post(url, data, {
+        console.log(`The access token is ${this.token}`)
+      await axios.post(url, data, {
         headers: {
-            authorization: `Bearer ${token}`
-        }
-     }).then((data) => {
-        console.log(data)
-        // res.status(200).json(data.data)
-     }).catch((err)=>{
-        console.log(err)
-        // res.status(400).json(err.message)
-     })
-
-}
-
-
-
-    private darajaCallback =  async(
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ): Promise<Response |void> =>{
-        try {
-            const {id} = req.params;
-            console.log(id);
-            // const business = await this.business.retrieveById(id)
-            // const newbusiness = await this.business.create(name, businessEmail,  ownerId, desc);
-            //  res.send({ business}) 
-        } catch(error: any) {
-            next(new HttpException(400, error.message))
-        }
-
+          authorization: `Bearer ${this.token}`,
+        },
+      }).then((data)=>{
+        console.log(data);
+      });
+      
+    } catch (err) {
+      console.log('STK Push error:', err);
     }
+  };
 
-   
+  private createToken = async () => {
+    const consumer_secret = 'D0TIl8PgIoWEGL2q';
+    const consumer_key = '0nkgYTNAn0R6f7nM2x9cNGQjDvQb4b16';
+
+    try {
+        const response = await axios.get(
+            'https://sandbox.safaricom.co.ke/oauth/v1/generate',{
+                params: {
+                    grant_type: "client_credentials"
+                  },
+            
+              headers: {
+                Authorization: `Basic ${Buffer.from(`${consumer_key}:${consumer_secret}`).toString('base64')}`,
+              },
+            
+        });
+          if (response.status === 200 && response.data && response.data.access_token) {
+             this.token = response.data.access_token;
+            console.log(`the access token${this.token}`); // Display the access token
+        
+            // Proceed with your subsequent requests using the access token
+          } else {
+            console.log('Failed to obtain access token.');
+          }
+        } catch (error) {
+          console.error('An error occurred while generating the access token:', error);
+        }
+  };
+
+  private darajaCallback = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
+    try {
+        console.log("received callback")
+        console.log(req.body)
+      // Set order status to paid if the payment was successful
+      // this.order.update()
+    } catch (error: any) {
+      next(new HttpException(400, error.message));
+    }
+  }
 }
 
-export default OrderController
+export default OrderController;

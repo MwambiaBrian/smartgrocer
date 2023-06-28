@@ -17,15 +17,7 @@ import Header from './Shared/header/Header'
 
 import { useState } from "react";
 
-// const router = createBrowserRouter(
-//   createRoutesFromElements(
-//     <>
-//     <Route path='auth' element={<Auth />} />
-    
-//     </>
-    
-  
-//   ))
+
 
 function App() {
   //const [count, setCount] = useState(0)
@@ -34,12 +26,7 @@ function App() {
   return (
     <div className='app'>
        <Header />
-       {/* <RouterProvider router={router} /> */}
-        {/* <Switch>
-          <Route path="/auth" Component={Auth} />
-          <Route  path="/reset" element={<Auth />} />
-          <Route  path="/verifyy" element={<Verification />} />
-        </Switch> */}
+   
           <Outlet />
         <Footer />
     </div>

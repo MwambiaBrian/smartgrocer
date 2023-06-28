@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Outlet, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Store";
+import Header from "../../Shared/header/Header";
 
 const Dashboard = () => {
   const auth = useSelector((state: RootState) => state.auth);
@@ -10,29 +11,23 @@ const Dashboard = () => {
 
   return (
     <StyledDashboard>
+        <Header />
       <SideNav>
         <h3>Quick Links</h3>
+     
         <NavLink
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
-          to="/admin/summary"
+          to="/driver/deliveries"
         >
-          Summary
+          Deliveries
         </NavLink>
         <NavLink
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
-          to="/seller/products"
-        >
-          Products
-        </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            isActive ? "link-active" : "link-inactive"
-          }
-          to="/admin/orders"
+          to="/driver/orders"
         >
           Orders
         </NavLink>
@@ -40,9 +35,9 @@ const Dashboard = () => {
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
-          to="/admin/users"
+          to="/driver/earnings"
         >
-          Users
+          My Account
         </NavLink>
       </SideNav>
       <Content>

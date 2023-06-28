@@ -18,6 +18,25 @@ const BusinessSchema = new Schema({
         required: true
 
     },
+     payment: {
+        type: {
+          method: { type: String, enum: ['mpesa'], required: true },
+          account: { type: String, required: true },
+       
+        },
+        required: false,
+      },
+
+         delivery: {
+        type: {
+          address: { type: String, required: true },
+          subCounty: { type: String, required: true },
+          market: { type: String, required: true },
+          zip: { type: String, required: true },
+          county: { type: String, required: true },
+        },
+        required: false,
+      },
  
     desc: {
         type: String ,

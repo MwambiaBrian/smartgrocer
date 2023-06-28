@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Children } from 'react';
 import ReactDOM from 'react-dom/client';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -45,12 +45,20 @@ import { store } from './Store';
 import CreateProduct from './features/sellers/CreateProduct';
 import Products from './features/sellers/Products';
 import Summary from './features/sellers/Summary';
+// import ProductsList from './features/sellers/ProductsList';
+import Deliveries from './features/delivery/Deliveries';
+import Overview from './features/admin/Overview';
+import NewTransport from './features/delivery/NewTransport';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 
 
 
 store.dispatch(loadUser())
 store.dispatch(getAllProducts())
+
+// Create a client
+const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
@@ -65,6 +73,14 @@ const router = createBrowserRouter([
       // element:<Landing /> 
       element:<Protected><Landing /></Protected> 
     
+    },
+    {
+      path: "business",
+      element: <BusinessForm />,
+     },
+     {
+      path: "transport",
+      element: <NewTransport />,
     },
     {
       path: "checkout",
@@ -114,48 +130,56 @@ const router = createBrowserRouter([
     
     path: "seller",
     element: <SellerDashboard />, children: [
-
+      {
+        index: true,
+   
+        element: <Summary />
+      
+       },
   
-    {
-      path: "business",
-      element: <BusinessForm />,
-     },
+  
      {
       path: "products",
-      element: <Products />
+      element: <Products />,
+      children:[
+        // {
+        //   index:true,
+        //   element: <ProductsList />
+        
+        //  },
+     
+      ]
     
      },
+  
      {
-      path: "summary",
-      element: <Summary />
-    
-     },
-    {
       path: "add",
       element: <CreateProduct />
     
      }
+  
   ]},
 
-  {element: <AdminLayout />, children: [
+  {
+    path: "admin",
+    element: <AdminDashboard />, children: [
 
     {
-      path: "admin-dashboard",
-      element:<Protected><AdminDashboard /></Protected> 
+      index: true,
+      element:<Protected><Overview /></Protected> 
     
     },
   ]},
-  {element: <DeliveryLayout />, children: [
+  {
+    path: "driver",
+    element: <DriverDashboard />, children: [
 
     {
-      path: "delivery-dashboard",
-      element: <Protected><DriverDashboard /></Protected> 
+      index: true,
+      element: <Protected><Deliveries /></Protected> 
     
     },
-    {
-      path: "newtransport",
-      element: <BusinessForm />,
-    },
+  
   ]},
  
   // { 
@@ -252,9 +276,13 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-      <Provider store={store}>
+  
+
+    <QueryClientProvider client={queryClient}>
+    <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
+    </QueryClientProvider>
    
   </React.StrictMode>
 )

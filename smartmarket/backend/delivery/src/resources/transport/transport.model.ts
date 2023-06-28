@@ -3,7 +3,7 @@ import Transport from './transport.interface'
 
 const TransportSchema = new Schema({
 
-    transportMobileNUmber: {
+    transportMobileNumber: {
         type: String,
         required: true
 

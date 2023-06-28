@@ -8,7 +8,7 @@ class DeliveryService {
 
     public async create(items: string, sellerAddress: string, buyerAddress: string) {
         try {
-            console.log(name)
+            
             const delivery = await this.delivery.create({items, sellerAddress, buyerAddress});
             return delivery;
         } catch(error) {

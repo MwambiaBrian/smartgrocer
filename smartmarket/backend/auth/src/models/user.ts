@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-   // role: { type: String, required: false, enum: Object.values(UserRoles) },
+   role: { type: String, required: false,default: "normal" },
     // payment: {
     //     type: {
     //       method: { type: String, enum: ['credit_card', 'paypal'], required: true },

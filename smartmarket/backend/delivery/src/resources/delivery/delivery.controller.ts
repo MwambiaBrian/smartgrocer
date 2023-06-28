@@ -53,7 +53,6 @@ class DeliveryController implements Controller {
     ): Promise<Response |void> =>{
         try {
             const {items, sellerAddress, buyerAddress} = req.body;
-            console.log(name)
             const newdelivery = await this.delivery.create(items, sellerAddress, buyerAddress)
             // const newbusiness = await this.business.create(name, businessEmail,  ownerId, desc);
              res.json({ newdelivery}) 
