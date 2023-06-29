@@ -23,7 +23,29 @@ class OrderController implements Controller {
       this.createOrderMiddleware,
       this.createOrder
     );
-    this.router.post(`${this.path}/callback`, this.darajaCallback);
+    this.router.post(
+        `${this.path}/callback`, 
+        this.callback);
+  }
+
+  private callback = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
+    const callbackData = req.body;
+    
+    
+        // console.log("received callback")
+        if(!callbackData.Body.stkCallback.CallbackMetadata ) {
+            console.log(callbackData.Body)
+            res.json("ok")
+
+        }
+        console.log(callbackData)
+      // Set order status to paid if the payment was successful
+      // this.order.update()
+    
   }
 
   private createOrderMiddleware = async (
@@ -58,6 +80,7 @@ class OrderController implements Controller {
 
       console.log(`from endpoint ${totalamount}`)
       await this.stkPush(phoneNumber, totalamount,metadata);
+      
     //   const payment_status = 'processing';
     //   const order = await this.order.create(
     //     products,
@@ -105,7 +128,7 @@ class OrderController implements Controller {
       CallBackURL: "https://7d9c-102-219-210-201.ngrok-free.app/api/order/callback",
       AccountReference: 'Test',
       TransactionDesc: 'Test',
-    //   metadata: metadata,
+    metadata: metadata,
     };
 
     try {
@@ -116,7 +139,8 @@ class OrderController implements Controller {
           authorization: `Bearer ${this.token}`,
         },
       }).then((data)=>{
-        console.log(data);
+        console.log(data.data);
+        
       });
       
     } catch (err) {
@@ -153,20 +177,7 @@ class OrderController implements Controller {
         }
   };
 
-  private darajaCallback = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<Response | void> => {
-    try {
-        console.log("received callback")
-        console.log(req.body)
-      // Set order status to paid if the payment was successful
-      // this.order.update()
-    } catch (error: any) {
-      next(new HttpException(400, error.message));
-    }
-  }
+
 }
 
 export default OrderController;

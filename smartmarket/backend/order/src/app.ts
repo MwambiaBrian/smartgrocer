@@ -6,6 +6,7 @@ import morgan from 'morgan'
 import Controller from './utils/interfaces/controller.interface';
 import ErrorMiddleware from './middlewares/error.middleware';
 import helmet from 'helmet';
+import bodyParser from 'body-parser';
 
 
 class App {
@@ -25,8 +26,10 @@ class App {
         this.express.use(helmet());
         this.express.use(cors())
         this.express.use(morgan('dev'));
-        this.express.use(express.json({limit: '10mb'}));
-        this.express.use(express.urlencoded({ extended: false}));
+        this.express.use(bodyParser.json());
+        // this.express.use(express.json({limit: '10mb'}));
+        // this.express.use(express.urlencoded({ extended: false}));
+        this.express.use(bodyParser.urlencoded({ extended: true }));
         this.express.use(compression())
 
     }
