@@ -30,6 +30,12 @@ class BusinessController implements Controller {
           
            
         );
+        this.router.get(
+            `${this.path}/earnings/:id`,
+           this.getEarnings,
+          
+           
+        );
 
         this.router.get(
             `${this.path}`,
@@ -44,6 +50,12 @@ class BusinessController implements Controller {
           
            
         );
+        this.router.put(
+            `${this.path}/:id`,
+           this.updateEarnings,
+          
+           
+        );
     }
 
     private  create =  async(
@@ -52,9 +64,9 @@ class BusinessController implements Controller {
         next: NextFunction
     ): Promise<Response |void> =>{
         try {
-            const {name, businessEmail, ownerId, desc} = req.body;
+            const {name, businessEmail,businessType, businessPhoneNumber, ownerId, location} = req.body;
             console.log(name)
-            const newbusiness = await this.business.create(name, businessEmail, ownerId, desc)
+            const newbusiness = await this.business.create(name, businessEmail, businessType, businessPhoneNumber,ownerId, location)
             // const newbusiness = await this.business.create(name, businessEmail,  ownerId, desc);
              res.json({ newbusiness}) 
         } catch(error: any) {
@@ -62,7 +74,22 @@ class BusinessController implements Controller {
         }
 
     }
+    private  getEarnings =  async(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response |void> =>{
+        try {
+            const {id} = req.params;
+         
+            const account = await this.business.getEarnings(id)
+            // const newbusiness = await this.business.create(name, businessEmail,  ownerId, desc);
+             res.json(account) 
+        } catch(error: any) {
+            next(new HttpException(400, error.message))
+        }
 
+    }
     private  retrieveById =  async(
         req: Request,
         res: Response,
@@ -70,10 +97,10 @@ class BusinessController implements Controller {
     ): Promise<Response |void> =>{
         try {
             const {id} = req.params;
-            console.log(id);
+         
             const business = await this.business.retrieveById(id)
             // const newbusiness = await this.business.create(name, businessEmail,  ownerId, desc);
-             res.send({ business}) 
+             res.json(business) 
         } catch(error: any) {
             next(new HttpException(400, error.message))
         }
@@ -86,7 +113,7 @@ class BusinessController implements Controller {
         next: NextFunction
     ): Promise<Response |void> =>{
         try {
-            const {id} = req.body;
+            const {id} = req.params;
             
             const business = await this.business.deleteById(id)
             // const newbusiness = await this.business.create(name, businessEmail,  ownerId, desc);
@@ -96,7 +123,23 @@ class BusinessController implements Controller {
         }
 
     }
+    private  updateEarnings =  async(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response |void> =>{
+        try {
+            const {id} = req.params;
+            const {amount}=req.body;
+            
+            const earnings = await this.business.updateEarnings(id, amount)
+            // const newbusiness = await this.business.create(name, businessEmail,  ownerId, desc);
+             res.json(earnings) 
+        } catch(error: any) {
+            next(new HttpException(400, error.message))
+        }
 
+    }
     private  retrieve = async(
         req: Request,
         res: Response,

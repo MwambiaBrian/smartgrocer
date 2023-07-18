@@ -29,10 +29,27 @@ const TransportSchema = new Schema({
         required: true
 
     },
- 
+    stage: {
+        county: {
+            type: String,
+            required: true,
+          },
+          town: {
+            type: String,
+            required: true,
+          },
+        street: {
+          type: String,
+          required: true,
+        },
+      
+      
+    
+     
+      },
     active: {
         type: Boolean ,
-        default: true
+        default: false
 
     }
 

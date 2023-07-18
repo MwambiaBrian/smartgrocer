@@ -2,22 +2,99 @@
 import styled from 'styled-components'
 import{ FaUsers, FaChartBar, FaClipboard} from 'react-icons/fa'
 import Widget from './Summary-components/Widget'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../Store'
 
 const Summary = () => {
+    
+
+  const business= useSelector((state: RootState) => state.businesses);
+const [earnings, setEarnings] =useState(0)
+const [orders, setOrders]=useState([
+    {
+        _id:'',
+        customerId:"",
+        products: Array<{
+         // productId: string;
+          businessId:'';
+          cartQuantity: '';
+          price: '';
+          // subtotal: number;
+    
+        }>,
+        totalAmount: null,
+        shippingAddress: {
+          street: '',
+          city: '',
+          building: '',
+          county: ''
+          
+        },
+        deliveryStatus: '',
+        paymentStatus:'',
+        createdAt: ''
+      }
+       
+]);
+
+const fetchOrders = async () => {
+    // const response = await axios.get(`http://localhost:5005/api/order/${customerId}}`);
+    const response = await axios.get(`http://localhost:5005/api/order`);
+    console.log(`from fetch${response.data}`)
+    return response.data;
+  };
+
+  useEffect(()=>{
+    const getMyOrders = async ()=>{
+      const myOrders = await fetchOrders()
+      console.log(`from app ${myOrders}`)
+      setOrders(myOrders);
+    }
+   
+   getMyOrders()
+   
+   //console.log(`from app file ${auth._id}`)
+  
+  },[])
+  const rows = orders && Array.isArray(orders)
+  ? orders
+      .map(order => ({
+        id: order._id,
+        pProducts: Array.isArray(order.products)
+          ? order.products.filter((product: any) => product.businessId === business.business._id)
+          : [],
+        pStatus: order.deliveryStatus,
+        pPayment: order.paymentStatus,
+        pTime: order.createdAt
+      }))
+      .filter(order => order.pProducts.length > 0)
+  : [];
+const myOrders = rows.length
+const fetchEarnings= async (id: string) => {
+const response = await axios.get(`http://localhost:5003/api/businesses/earnings/${id}`)
+return response.data
+}
+useEffect(()=>{
+    const getEarnings = async ()=>{
+      const users = await fetchEarnings(business.business._id)
+    
+      setEarnings(users)
+      
+    }
+   
+   getEarnings()
+   
+   
+  
+  },[])
     const data = [
 
-        {
-            icon: <FaUsers />,
-            digits: 50,
-            isMoney: false,
-            title: 'Users',
-            color: "rgb(102, 181, 40)",
-            bgColor:  "rgba(102, 181, 40, 0.12)",
-            percentage: 30
-        },
+      
         {
             icon: <FaClipboard />,
-            digits: 70,
+            digits: myOrders,
             isMoney: false,
             title: 'Orders',
             color: "rgb(38, 198, 249)",
@@ -27,7 +104,7 @@ const Summary = () => {
      
         {
             icon: <FaChartBar />,
-            digits: 500,
+            digits: earnings,
             isMoney: false,
             title: 'Earnings',
             color: "rgb(253, 108, 255)",
@@ -46,7 +123,7 @@ const Summary = () => {
             <Overview>
                 <Title>
                     <h2>Overview</h2>
-                    <p>Perfomance comparison</p>
+                    <p>Perfomance </p>
                 </Title>
                 <WidgetWrapper>
                     {data?.map((data, index) => <Widget key={index} data={data}/>)}
@@ -62,6 +139,8 @@ export default Summary
 const StyledSummarry = styled.div`
 width: 100%;
 display: flex;
+justify-content: space-around;
+
 margin-top: 60px;
 `;
 
@@ -86,13 +165,13 @@ height: 170px;
 border-radius: 10px;
 display: flex;
 flex-direction: column;
-justify-content: space-between
+justify-content: space-between;
 `;
 
 const WidgetWrapper = styled.div`
 display: flex;
 width: 100%;
-jusitify-content: space-between
+jusitify-content: space-between;
 `;
 
 const SideStats = styled.div`

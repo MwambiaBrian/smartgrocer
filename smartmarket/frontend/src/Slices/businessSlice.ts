@@ -4,15 +4,17 @@ import { url, setHeaders} from "./api";
 
 
 interface Business {
-  type: string;
+
   ownerId: string;
   name: string;
-  email: string
-  desc: string;
-  id: string;
+  email: string;
+  businessType: string;
+  _id: string;
+  location: object
+  earning: number
 }
 interface BusinessState {
-  businesses: Business [];
+  business: Business;
  
 
 
@@ -20,10 +22,11 @@ interface BusinessState {
 
 interface CreateBusinessValues {
   name: string;
-  type: string;
+  businessType: string;
   businessEmail: string;
+  businessPhoneNumber: string;
 ownerId: string;
-desc:string
+address: {}
 }
 
 const url_api="http://localhost:5003/api"
@@ -35,10 +38,12 @@ export const createBusiness = createAsyncThunk<Business, CreateBusinessValues, {
     try {
       const response = await axios.post(`${url_api}/businesses`, {
         name: values.name,
-        type: values.type,
+        businessType: values.businessType,
+        businessPhoneNumber: values.businessPhoneNumber,
         businessEmail: values.businessEmail,
        ownerId: values.ownerId,
-        desc: values.desc
+       location: values.address
+     
       });
       console.log(response.data)
 
@@ -56,24 +61,24 @@ export const createBusiness = createAsyncThunk<Business, CreateBusinessValues, {
   }
 );
 
-export const getBusiness = createAsyncThunk<Business, string, { rejectValue: string }>(
-  "businesses/getBusiness",
-  async (id, { rejectWithValue }: any) => {
-    console.log(typeof id)
-    try {
-      const response = await axios.get(`${url_api}/businesses/${id}`, setHeaders());
-      console.log(response)
-      return response.data;
-    } catch (error) {
-        if (axios.isAxiosError(error)) {
-            console.log(error.response?.data);
-            return rejectWithValue(error.response?.data);
-          }
+// export const getBusiness = createAsyncThunk<Business, string, { rejectValue: string }>(
+//   "businesses/getBusiness",
+//   async (id, { rejectWithValue }) => {
+//    // console.log(typeof id)
+//     try {
+//       const response = await axios.get(`${url_api}/businesses/${id}`, setHeaders());
+//       console.log(response)
+//       return response.data;
+//     } catch (error) {
+//         if (axios.isAxiosError(error)) {
+//             console.log(error.response?.data);
+//             return rejectWithValue(error.response?.data);
+//           }
       
-          throw error;
-    }
-  }
-);
+//           throw error;
+//     }
+//   }
+// );
 
 export const getAllBusinesses = createAsyncThunk<Business [], Business[], { rejectValue: string }>(
   "business/getAllBusinesses",
@@ -96,7 +101,16 @@ export const getAllBusinesses = createAsyncThunk<Business [], Business[], { reje
 );
 
 const initialState: BusinessState = {
-  businesses: [],
+  business: {
+    ownerId: "",
+    earning: 0,
+    name: "",
+    email: "",
+    businessType: "",
+    _id: "", 
+    location: {}
+
+  } ,
 
  
  
@@ -105,8 +119,18 @@ const initialState: BusinessState = {
 const businessSlice = createSlice({
   name: "business",
   initialState,
-  reducers: {},
+  reducers: {
+    setBusiness: (state, action) => {
+      state.business = action.payload;
+    },
+  },
   extraReducers: (builder) => {
+    // builder.addCase(setBusiness.fulfilled, (state, action) => {
+
+
+    //   state.business = action.payload;
+    // });
+
     builder.addCase(createBusiness.pending, (state) => {
       return { ...state, addStatus: "pending" };
     });
@@ -134,25 +158,33 @@ const businessSlice = createSlice({
       };
     });
   
-    builder.addCase(getBusiness.pending, (state) => {
-      return {
-        ...state,
-        getUserStatus: "pending",
-      };
-    });
-    builder.addCase(getBusiness.fulfilled, (state, action) => {
-      if (action.payload) {
+//     builder.addCase(getBusiness.rejected, (state, action) => {
+//       return {
+//         ...state,
+//         getUserStatus: "rejected",
+//         getUserError: action.payload,
+//       };
+//     });
+//     builder.addCase(getBusiness.pending, (state) => {
+//       return {
+//         ...state,
+//         getBusinessStatus: "pending",
+//       };
+//     });
+//     builder.addCase(getBusiness.fulfilled, (state, action) => {
+//       if (action.payload) {
        
-        console.log(action.payload)
+//         console.log(action.payload.email)
         
-        // state.name=product.name
-        // state.price=product.price
-        // state._id=product.id
-        // state.addStatus="success"
-
-        return  {...state, myBusiness:action.payload}
-      } else return state;
-    });
+//         // state.name=product.name
+//         // state.price=product.price
+//         // state._id=product.id
+//         // state.addStatus="success"
+//         state.business=action.payload
+// console.log(state.business._id)
+//         return  state
+//       } else return state;
+//     });
     builder.addCase(getAllBusinesses.rejected, (state, action) => {
       return {
         ...state,
@@ -171,23 +203,17 @@ const businessSlice = createSlice({
       if (action.payload) {
       //  const user = jwtDecode<User>(action.payload);
      
-        state.businesses = action.payload
+      //  state.business= action.payload
     
 
         return state
       } else return state;
     });
-    builder.addCase(getBusiness.rejected, (state, action) => {
-      return {
-        ...state,
-        getUserStatus: "rejected",
-        getUserError: action.payload,
-      };
-    });
+
   },
 });
 
 
 
-
+export const { setBusiness } = businessSlice.actions;
 export default businessSlice.reducer;

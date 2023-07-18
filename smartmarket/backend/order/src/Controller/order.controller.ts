@@ -23,9 +23,77 @@ class OrderController implements Controller {
       this.createOrderMiddleware,
       this.createOrder
     );
+    this.router.get(
+      `${this.path}`,
+      
+      this.getAllOrders
+    );
+    this.router.get(
+      `${this.path}/:customerId`, 
+      this.getCustomerOrders
+    );
     this.router.post(
-        `${this.path}/callback`, 
+        `${this.path}/callback/:orderId`, 
         this.callback);
+
+        this.router.put(
+          `${this.path}/:order`,
+          this.updateDriver
+        );
+
+  }
+
+  private updateDriver = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
+    const orderId = req.params.order
+    const {driverId, driverName,transportNumber} = req.body
+     console.log(`from callback ${orderId}`)
+   
+    
+        // console.log("received callback")
+        // if(!callbackData.Body.stkCallback.CallbackMetadata ) {
+        //     console.log(callbackData.Body)
+        //     res.json("ok")
+
+        // } else {
+
+// update the order payment status to paid
+const updatedOrder = await this.order.updateDriver(orderId, driverId, driverName, transportNumber);
+res.json(updatedOrder)
+// Calculate the total amount payable for each seller
+// // retrieve the order by id
+// const order = await this.order.retrieveById(orderId);
+// const items = order?.products;
+// const sellerTotals: { [key: string]: number } = {};
+
+// Calculate the total amount payable for each seller
+// if (items) {
+//   // Calculate the total amount payable for each seller
+//   for (const product of items) {
+//     const { businessId, cartQuantity, price } = product;
+//     const subtotal = cartQuantity*price;
+//     if (sellerTotals[businessId]) {
+//       sellerTotals[businessId] += subtotal;
+//     } else {
+//       sellerTotals[businessId] = subtotal;
+//     }
+//   }
+// }
+
+// console.log(sellerTotals)
+// //get individual sellers/business serving the order and there amount payable to them from the products array
+// // update each business earnings/account with the amount,
+// //get delvery fee fraction from the totalAmount paid
+
+//         }
+       
+          // res.json("ok")
+      // Set order status to paid if the payment was successful
+      // this.order.update()
+    
   }
 
   private callback = async (
@@ -34,15 +102,60 @@ class OrderController implements Controller {
     next: NextFunction
   ): Promise<Response | void> => {
     const callbackData = req.body;
-    
+    const orderId = req.params.orderId
+     console.log(`from callback ${orderId}`)
+   
     
         // console.log("received callback")
         if(!callbackData.Body.stkCallback.CallbackMetadata ) {
             console.log(callbackData.Body)
             res.json("ok")
 
+        } else {
+
+// update the order payment status to paid
+await this.order.updatePaymentStatusToPaid(orderId)
+
+
+// Calculate the total amount payable for each seller
+// retrieve the order by id
+const order = await this.order.retrieveById(orderId);
+const items = order?.products;
+const sellerTotals: { [key: string]: number } = {};
+
+// Calculate the total amount payable for each seller
+if (items) {
+  // Calculate the total amount payable for each seller
+  for (const product of items) {
+    const { businessId, cartQuantity, price } = product;
+    const subtotal = cartQuantity*price;
+    if (sellerTotals[businessId]) {
+      sellerTotals[businessId] += subtotal;
+    } else {
+      sellerTotals[businessId] = subtotal;
+    }
+  }
+}
+
+console.log(sellerTotals)
+//get individual sellers/business serving the order and there amount payable to them from the products array
+// update each business earnings/account with the amount,
+//get delvery fee fraction from the totalAmount paid
+// Update the account for each business using Axios
+for (const businessId in sellerTotals) {
+  const amount = sellerTotals[businessId];
+
+  try {
+    await axios.put(`http://localhost:5003/api/business/${businessId}`, { amount });
+    console.log(`Account updated for business ${businessId}`);
+  } catch (error) {
+    console.error(`Error updating account for business ${businessId}:`, error);
+  }
+}
+
         }
-        console.log(callbackData)
+       
+          res.json("ok")
       // Set order status to paid if the payment was successful
       // this.order.update()
     
@@ -67,37 +180,66 @@ class OrderController implements Controller {
     next: NextFunction
   ): Promise<Response | void> => {
     try {
-      const { phoneNumber, products, buyerId, subtotal, totalamount, shipping } = req.body;
-      const orderPayload = {
-        products,
-        buyerId,
-        subtotal,
-        totalamount,
-        shipping,
-      };
+      const { phoneNumber, customerId, products, totalAmount, shippingAddress } = req.body;
+      // const orderPayload = {
+      //   products,
+      //   customerId,
+      //   totalAmount,
+      //   shippingAddress,
+      // };
 
-      const metadata = JSON.stringify(orderPayload);
+      // const metadata = JSON.stringify(orderPayload);
 
-      console.log(`from endpoint ${totalamount}`)
-      await this.stkPush(phoneNumber, totalamount,metadata);
+     
       
-    //   const payment_status = 'processing';
-    //   const order = await this.order.create(
-    //     products,
-    //     buyerId,
-    //     subtotal,
-    //     totalamount,
-    //     shipping,
-    //     payment_status
-    //   );
+      
+     
+      const order = await this.order.create(
+        customerId,
+        products,
+        totalAmount,
+        shippingAddress,
+        
+      );
+      const orderId = order._id
+      await this.stkPush(phoneNumber, totalAmount,orderId);
       //console.log(order);
-      return res.json({  });
+      return res.json(orderId);
     } catch (error: any) {
       next(new HttpException(400, error.message));
     }
   };
+  private  getCustomerOrders =  async(
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<Response |void> =>{
+    try {
+    const {customerId} = req.params
+        const orders = await this.order.retrieveByCustomerId(customerId)
+      
+         res.json( orders) 
+    } catch(error: any) {
+        next(new HttpException(400, error.message))
+    }
 
-  private stkPush = async (phoneNumber: string, amount: string, metadata: any) => {
+}
+  private  getAllOrders =  async(
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<Response |void> =>{
+    try {
+    
+        const orders = await this.order.retrieve()
+      
+         res.json( orders) 
+    } catch(error: any) {
+        next(new HttpException(400, error.message))
+    }
+
+}
+  private stkPush = async (phoneNumber: string, amount: string, orderId: string) => {
 
     console.log(amount)
     const shortCode = 174379;
@@ -125,15 +267,15 @@ class OrderController implements Controller {
       PartyA: `254${phone}`,
       PartyB: 174379,
       PhoneNumber: `254${phone}`,
-      CallBackURL: "https://7d9c-102-219-210-201.ngrok-free.app/api/order/callback",
-      AccountReference: 'Test',
+      CallBackURL: `https://21f2-196-207-155-88.ngrok-free.app/api/order/callback/${orderId}`,
+      AccountReference: orderId,
       TransactionDesc: 'Test',
-    metadata: metadata,
     };
 
     try {
 
         console.log(`The access token is ${this.token}`)
+      //  console.log(metadata)
       await axios.post(url, data, {
         headers: {
           authorization: `Bearer ${this.token}`,

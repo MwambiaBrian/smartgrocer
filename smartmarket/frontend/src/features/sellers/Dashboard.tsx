@@ -14,15 +14,15 @@ const Dashboard = () => {
        <Header />
       <SideNav>
         <h3>Quick Links</h3>
-        <NavLink
+        <NavLink style={{fontSize: 20}}
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
-          to="/seller/summary"
+          to="/seller"
         >
           Summary
         </NavLink>
-        <NavLink
+        <NavLink style={{fontSize: 20}}
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
@@ -30,22 +30,15 @@ const Dashboard = () => {
         >
           Products
         </NavLink>
-        <NavLink
+        <NavLink style={{fontSize: 20}}
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
-          to="/admin/orders"
+          to="/seller/orders"
         >
           Orders
         </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            isActive ? "link-active" : "link-inactive"
-          }
-          to="/admin/users"
-        >
-          Users
-        </NavLink>
+       
       </SideNav>
       <Content>
         <Outlet />
@@ -70,7 +63,8 @@ color: White;
   width: 200px;
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  padding: 4rem;
+  font-size: 20px
   margin-top: 60px
   
 

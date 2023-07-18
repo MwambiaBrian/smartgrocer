@@ -1,78 +1,120 @@
-import {Document} from 'mongoose'
+import mongoose, {Document} from 'mongoose'
 import {Schema, model } from 'mongoose';
 
-export  interface Order extends Document {
-    userId: string;
-    products: [
-        {
-            id: String,
-              name: String,
-              businessId: String,
-              category: string,
-              price: Number,
-              desc: String,
-              image: String,
-              cartQuantity: String
-        }
-    ],
-    subtotal: String,
-    totalAmount: string,
-    shipping: Object,
-    payment_status: string
+export interface Order extends Document {
+    customerId: string;
+    driverId: string;
+    transportNumber: string;
+    driverName: string;
+    products: Array<{
+     // productId: string;
+      businessId:string;
+      cartQuantity: number;
+      price: number;
+      // subtotal: number;
 
-}
+    }>;
+    totalAmount: number;
+    shippingAddress: {
+      street: string;
+      city: string;
+      building: string;
+      county: string;
+      
+    };
+    deliveryStatus: string;
+    
+    paymentStatus: string;
+    // createdAt: Date;
+  }
+  
 
 
 
 const OrderSchema = new Schema({
 
-    userId: {
-        type: String,
-        required: true
-
-    },
-    products: [
-        {
-            id:{type: String},
-              name:{type: String},
-              businessId:{type: String},
-              price:{type: Number},
-              desc: {type: String},
-              image: {type: String},
-              cartQuantity: {type: String}
-        }
-    ],
-    subtotal: {
-        type: Number,
-        required: true
-
-    },
- 
-    totalAmount: {
-        type: Number,
-        required: true
-
-    },
-
-    shipping: {
-        type: Object,
-        required: true
-
-    },
- 
- 
-    delivery_status: {
-        type: String ,
-        required: false,
-        default: "pending"
-
-    },
-    payment_status: {
-        type: String ,
+    customerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Customer',
         required: true,
-        
+      },
 
+    driverId: {
+      type: String,
+     
+      required: false,
     },
+    transportNumber: {
+      type: String,
+     
+      required: false,
+    },
+    driverName: {
+      type: String,
+     
+      required: false,
+    },
+      products: [{
+        _id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Product',
+          required: true,
+        },
+        businessId: {
+          type: String,
+          ref: 'Business',
+          required: true,
+        },
+        cartQuantity: {
+          type: Number,
+          required: true,
+        },
+        price: {
+          type: Number,
+          required: true,
+        },
+        // subtotal: {
+        //   type: Number,
+        //   required: true,
+        // },
+      }],
+      totalAmount: {
+        type: Number,
+        required: true,
+      },
+      shippingAddress: {
+        street: {
+          type: String,
+          required: true,
+        },
+        city: {
+          type: String,
+          required: true,
+        },
+     
+        county: {
+          type: String,
+          required: true,
+        },
+        building: {
+          type: String,
+          required: false,
+        },
+      },
+      deliveryStatus: {
+        type: String,
+        enum: ['Pending', 'Shipped', 'Delivered'],
+        default: 'Pending',
+      },
+      paymentStatus: {
+        type: String,
+        enum: ['Pending', 'processing', 'paid'],
+        default: 'Pending',
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
 //   {timestamp: true}
 
 }

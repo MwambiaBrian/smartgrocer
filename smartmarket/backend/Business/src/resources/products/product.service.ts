@@ -6,10 +6,10 @@ class ProductService {
 
     /**create a product */
 
-    public async create(name: string, category: string, price: number, img: string, desc: string) {
+    public async create(businessId: string,name: string, category: string, price: number, img: string, desc: string) {
         try {
             console.log(name)
-            const product = await this.product.create({name, category, price, img, desc});
+            const product = await this.product.create({businessId,name, category, price, img, desc});
             return product;
         } catch(error) {
             console.log(error)

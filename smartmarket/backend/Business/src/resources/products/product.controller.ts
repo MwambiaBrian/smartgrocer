@@ -52,7 +52,7 @@ class ProductController implements Controller {
     ): Promise<Response |void> => {
 
         try {
-                const {name, category, price, img, desc} = req.body;
+                const {businessId,name, category, price, img, desc} = req.body;
             if (img) {
               const uploadedResponse = await cloudinary.uploader.upload(img, {
                 upload_preset: "digital-market",
@@ -66,9 +66,9 @@ class ProductController implements Controller {
                 //   price,
                 //   image: uploadedResponse,
                 // });
-                const savedProduct = await this.productService.create(name, category, price, uploadedResponse.url, desc);
+                const savedProduct = await this.productService.create(businessId,name, category, price, uploadedResponse.url, desc);
                 //const savedProduct = await product.save();
-                res.status(200).send(savedProduct);
+                res.status(200).json(savedProduct);
               }
             }
           } catch (error) {

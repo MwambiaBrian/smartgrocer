@@ -38,6 +38,13 @@ class UserController implements Controller {
           
            
         );
+        this.router.get(
+          `${this.path}`,
+         this.getAllUsers,
+        
+        
+         
+      );
         this.router.post(
             `${this.path}/login`,
            
@@ -49,6 +56,25 @@ class UserController implements Controller {
        
     }
 
+    private  getAllUsers =  async(
+      req: Request,
+      res: Response,
+      next: NextFunction
+  ): Promise<Response |void> =>{
+    try {
+      
+      
+      const users = await this.user.retrieve()
+   
+      res.json(users);
+   
+    } catch (err: any) {
+      res.status(500).send(err.message);
+    }
+
+  }
+
+
     private  register =  async(
         req: Request,
         res: Response,
@@ -56,13 +82,14 @@ class UserController implements Controller {
     ): Promise<Response |void> =>{
       try {
         
-        const {name, email, password} = req.body;
-        const newuser = await this.user.create(name, email, password)
+        const {name, email, password, role} = req.body;
+        const newuser = await this.user.create(name, email, password, role)
         const token = jwt.sign(
           { 
             id: newuser._id,
             name: newuser.name,
-            email: newuser.email
+            email: newuser.email,
+            role: newuser.role
           }, 
           'mysecretkey');
         res.json({token});
@@ -90,7 +117,8 @@ class UserController implements Controller {
        { 
          id: user._id,
          name: user.name,
-         email: user.email
+         email: user.email,
+         role: user.role
        }, 
        'mysecretkey');
       

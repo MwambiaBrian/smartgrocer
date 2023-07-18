@@ -50,7 +50,19 @@ import Deliveries from './features/delivery/Deliveries';
 import Overview from './features/admin/Overview';
 import NewTransport from './features/delivery/NewTransport';
 import { QueryClient, QueryClientProvider } from 'react-query';
-
+import ProductsList from './features/sellers/ProductsList';
+import MyOrders from './features/sellers/MyOrders';
+import Businesses from './features/admin/Businesses';
+import Orders from './features/Orders';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import AssignedOrders from './features/delivery/AssigneOrders';
+import AllOrders from './features/admin/AllOrders';
+import Vehicles from './features/admin/Vehicles';
+import AllProducts from './features/admin/Products';
+import Users from './features/admin/users';
+import UsersList from './features/admin/UsersList';
+import NewUser from './features/admin/NewUser';
 
 
 
@@ -74,6 +86,10 @@ const router = createBrowserRouter([
       element:<Protected><Landing /></Protected> 
     
     },
+    {
+      path: "orders",
+      element: <Orders />,
+     },
     {
       path: "business",
       element: <BusinessForm />,
@@ -136,17 +152,24 @@ const router = createBrowserRouter([
         element: <Summary />
       
        },
+
+       {
+        path: "orders" ,
+   
+        element: <MyOrders />
+      
+       },
   
   
      {
       path: "products",
       element: <Products />,
       children:[
-        // {
-        //   index:true,
-        //   element: <ProductsList />
+        {
+          index:true,
+          element: <ProductsList />
         
-        //  },
+         },
      
       ]
     
@@ -169,6 +192,51 @@ const router = createBrowserRouter([
       element:<Protected><Overview /></Protected> 
     
     },
+    {
+      path: "orders",
+      // element:<Protected><Orders /></Protected> 
+      element:<AllOrders />
+    },
+     {
+       path: "vehicles",
+       element:<Vehicles /> 
+    
+     },
+     {
+      path: "products",
+      element:<AllProducts /> 
+   
+    },
+    {
+      path: "deliveries",
+      element:<AllProducts /> 
+   
+    },
+    {
+      path: "users",
+      element: <Users />,
+      children:[
+        {
+          index:true,
+          element: <UsersList />
+        
+         },
+     
+      ]
+    
+     },
+  
+     {
+      path: "add",
+      element: <NewUser />
+    
+     },
+ 
+    {
+      path: "businesses",
+      element:<Protected><Businesses /></Protected> 
+    
+    },
   ]},
   {
     path: "driver",
@@ -177,6 +245,12 @@ const router = createBrowserRouter([
     {
       index: true,
       element: <Protected><Deliveries /></Protected> 
+    
+    },
+    {
+      path: "orders",
+      // element: <Protected><Deliveries /></Protected> 
+      element: <AssignedOrders /> 
     
     },
   
@@ -281,6 +355,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <QueryClientProvider client={queryClient}>
     <Provider store={store}>
       <RouterProvider router={router} />
+     <ToastContainer />
     </Provider>
     </QueryClientProvider>
    

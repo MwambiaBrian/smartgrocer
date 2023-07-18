@@ -5,20 +5,30 @@ import { QueryClient, useMutation } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { addTransport } from '../../api/transportApi';
+import axios from 'axios';
+import { RootState } from '../../Store';
 
 function NewTransport() {
+  const auth = useSelector((state: RootState) => state.auth);
+
   const [vehiclenNumber, setVehicleNumber] = useState('');
-  const [businessEmail, setBusinessEmail] = useState('');
+  const [vehicleMobileNumber, setVehicleMobileNumber] = useState('');
+  const [vehicleEmail, setVehicleEmail] = useState('');
   const [vehicleType, setVehicleType] = useState('');
-  const [address, setAddress] = useState('');
-  const [address2, setAddress2] = useState('');
-  const [desc, setDesc] = useState('');
+  const [street, setStreet] = useState('');
+  const [town, setTown] = useState('');
+ 
   const [county, setCounty] = useState('');
-  const [zip, setZip] = useState('');
 
 
 
-  const queryClient = new QueryClient()
+const createTransport = async (newTransport: any)=>{
+const response = await axios.post("http://localhost:5004/api/transports", newTransport)
+return response.data  
+}
+ 
+
+const queryClient = new QueryClient()
 {
   const addTransportMutation = useMutation(addTransport, {
     onSuccess: () => {
@@ -29,24 +39,35 @@ function NewTransport() {
 //   c
 
   const navigate = useNavigate();
+
+
+ 
 //   const auth = useSelector((state: RootState) => state.auth);
 //   const dispatch: AppDispatch = useDispatch();
-  const handleFormSubmit = () => {
-    // Handle form submission here
-    // You can access the form values from the state variables
-    console.log('Business Name:', name);
-    console.log('Business Email:', businessEmail);
-    // console.log('Business Type:', type);
-    console.log('Address:', address);
-    console.log('Address 2:', address2);
-    console.log('County:', county);
-    console.log('Zip:', zip);
-// const ownerId=auth._id
-// console.log(ownerId)
-// dispatch(createBusiness({name,type, businessEmail,desc,ownerId }))
+  const handleFormSubmit = async () => {
+      
+  const newTransport = {
+    transportNumber: vehiclenNumber,
+    transportEmail: vehicleEmail,
+    transportType: vehicleType,
+    transportMobileNumber: vehicleMobileNumber,
+    ownerId: auth._id,
+    stage:{
+      county: county,
+      town:town,
+      street:street,
 
-console.log("business created")
+    }
+       
+  
+  }
+   const transport = await createTransport(newTransport)
+   if (transport){
+    console.log(transport)
 navigate("/driver")
+   }
+   
+
   };
 
   return (
@@ -87,11 +108,23 @@ navigate("/driver")
                   <input
                     type="email"
                     className="form-control"
-                    placeholder="businessemail@example.com"
+                    placeholder="transportemail@example.com"
                     aria-label="youremail@example.com"
                     aria-describedby="basic-addon1"
-                    value={businessEmail}
-                    onChange={(e) => setBusinessEmail(e.target.value)}
+                    value={vehicleEmail}
+                    onChange={(e) => setVehicleEmail(e.target.value)}
+                  />
+                </div>
+                <p className="mb-0">Mobile</p>
+                <div className="form-outline mb-4">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="0712345678"
+                    aria-label=""
+                    aria-describedby="basic-addon1"
+                    value={vehicleMobileNumber}
+                    onChange={(e) => setVehicleMobileNumber(e.target.value)}
                   />
                 </div>
 
@@ -100,25 +133,14 @@ navigate("/driver")
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Grocery store"
+                    placeholder="Truck"
                     aria-label=""
                     aria-describedby="basic-addon1"
                     value={vehicleType}
                     onChange={(e) => setVehicleType(e.target.value)}
                   />
                 </div>
-                <p className="mb-0">desc</p>
-                <div className="form-outline mb-4">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="1234 Main St"
-                    aria-label="1234 Main St"
-                    aria-describedby="basic-addon1"
-                    value={desc}
-                    onChange={(e) => setDesc(e.target.value)}
-                  />
-                </div>
+              
 
                 {/* <!--address--> */}
                 <p className="mb-0">Address</p>
@@ -126,11 +148,11 @@ navigate("/driver")
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="1234 Main St"
-                    aria-label="1234 Main St"
+                    placeholder="Kiwanja"
+                    aria-label="Kiwanja"
                     aria-describedby="basic-addon1"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
+                    value={street}
+                    onChange={(e) => setStreet(e.target.value)}
                   />
                 </div>
 
@@ -140,11 +162,11 @@ navigate("/driver")
                   <input
                     type="text"
                     className="form-control"
-                    placeholder="Apartment or suite"
+                    placeholder="Githurai"
                     aria-label="Apartment or suite"
                     aria-describedby="basic-addon1"
-                    value={address2}
-                    onChange={(e) => setAddress2(e.target.value)}
+                    value={town}
+                    onChange={(e) => setTown(e.target.value)}
                   />
                 </div>
 
@@ -156,7 +178,7 @@ navigate("/driver")
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="California"
+                        placeholder="Nairobi"
                         aria-label="California"
                         aria-describedby="basic-addon1"
                         value={county}
@@ -164,20 +186,7 @@ navigate("/driver")
                       />
                     </div>
                   </div>
-                  {/* <!--Grid column--> */}
-
-                  {/* <!--Grid column--> */}
-                  <div className="col-lg-4 col-md-12 mb-4">
-                    <p className="mb-0">Zip</p>
-                    <div className="form-outline">
-                      <input
-                        type="text"
-                        className="form-control"
-                        value={zip}
-                        onChange={(e) => setZip(e.target.value)}
-                      />
-                    </div>
-                  </div>
+                
                   {/* <!--Grid column--> */}
                 </div>
                 {/* <!--Grid row--> */}

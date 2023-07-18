@@ -15,15 +15,15 @@ const Dashboard = () => {
       <SideNav>
         <h3>Quick Links</h3>
      
-        <NavLink
+        <NavLink style={{fontSize: 20}}
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
-          to="/driver/deliveries"
+          to="/driver"
         >
           Deliveries
         </NavLink>
-        <NavLink
+        <NavLink style={{fontSize: 20}}
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
@@ -31,14 +31,14 @@ const Dashboard = () => {
         >
           Orders
         </NavLink>
-        <NavLink
+        {/* <NavLink
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
           to="/driver/earnings"
         >
           My Account
-        </NavLink>
+        </NavLink> */}
       </SideNav>
       <Content>
         <Outlet />

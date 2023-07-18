@@ -1,29 +1,76 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Checkout.css'
 import axios from 'axios';
 import { createOrder } from '../../api/orderApi';
 import { QueryClient, useMutation } from 'react-query';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../Store';
+import { useNavigate } from 'react-router-dom';
 function Checkout() {
+    const cart = useSelector((state: RootState) => state.cart);
+    const auth = useSelector((state: RootState) => state.auth);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [street, setAddress] = useState('');
+    const [building, setAddress2] = useState('');
+    const [county, setCounty] = useState('');
+    const [city, setCity] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
 
+    const navigate = useNavigate()
+    // const queryClient = new QueryClient()
+    // {
+    //   const createOrderMutation = useMutation(createOrder, {
+    //     onSuccess: () => {
+    //       //invalidate cache and refetch
+    //       queryClient.invalidateQueries("orders")
+    //     }
+    //   })
+    // }
 
-    const queryClient = new QueryClient()
-    {
-      const createOrderMutation = useMutation(createOrder, {
-        onSuccess: () => {
-          //invalidate cache and refetch
-          queryClient.invalidateQueries("orders")
-        }
-      })
+    const createOrder = async (order: any)=>{
+        const response = await axios.post("http://localhost:5005/api/order", order)
+        console.log(response.data)
+        return response.data
     }
 
-    
 const handleCheckout = async () => {
-// create an order after reaching safaricom for payment
-//const response = await axios.post(`${url_api}/order/`, setHeaders());
+    // Create an order after reaching Safaricom for payment
+    const address = {
+        street: street ,
+         city: city ,
+        building: building,
+        county: county
 
-
-}
-
+    }
+    console.log(cart.cartItems)
+    const orderData = {
+        customerId: auth._id,
+        
+      products:cart.cartItems,
+      totalAmount: cart.cartTotalAmount,
+      phoneNumber: phoneNumber,
+      shippingAddress: address
+      
+    };
+ // console.log(orderData)
+    try {
+      // Send the orderData to your API or perform any required actions
+     const newOrder = await createOrder(orderData);
+  
+      // Handle the response as needed
+      if(newOrder){
+        console.log(newOrder)
+        navigate("/orders")
+      }
+      //console.log(response.data);
+    } catch (error) {
+      // Handle any errors that occurred during the API request
+      console.error(error);
+    }
+  };
+  
 
   return (
     <>
@@ -40,47 +87,24 @@ const handleCheckout = async () => {
                 {/* <!--Card--> */}
                 <div className="card p-4">
                     <div className="row mb-3">
-                        <div className="col-md-6 mb-2">
-                            <div className="form-outline">
-                                <input type="text" id="typeText" className="form-control" />
-                                <label className="form-label" >First name</label>
-                            </div>
-                        </div>
+                    
                         {/* <!--Grid column--> */}
 
                         {/* <!--Grid column--> */}
-                        <div className="col-md-6 mb-2">
-                            {/* <!--lastName--> */}
-                            <div className="form-outline">
-                                <input type="text" id="typeText" className="form-control" />
-                                <label className="form-label" 
-                                >Last name</label>
-                            </div>
-                        </div>
+                    
                         {/* <!--Grid column--> */}
                     </div>
                     {/* <!--Grid row--> */}
 
-                    {/* <!--Username--> */}
-                    <div className="input-group mb-4">
-                        <span className="input-group-text" id="basic-addon1">@</span>
-                        <input type="text" className="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
-                    </div>
+                   
 
                     {/* <!--email--> */}
-                    <p className="mb-0">
-                        Email (optional)
-                    </p>
-                    <div className="form-outline mb-4">
-                         <input type="email" className="form-control" placeholder="youremail@example.com" aria-label="youremail@example.com" aria-describedby="basic-addon1" />
-                    </div>
-
-                    {/* <!--address--> */}
                     <p className="mb-0">
                         Address
                     </p>
                     <div className="form-outline mb-4">
-                        <input type="email" className="form-control" placeholder="1234 Main St" aria-label="1234 Main St" aria-describedby="basic-addon1" />
+                    <input type="text" id="typeText" className="form-control" placeholder='Kiwanja Market' value={street} onChange={(e) => setAddress(e.target.value)} />
+
                     </div>
 
                     {/* <!--address-2--> */}
@@ -88,48 +112,44 @@ const handleCheckout = async () => {
                         Address 2 (optional)
                     </p>
                     <div className="form-outline mb-4">
-                        <input type="email" className="form-control" placeholder="Apartment or suite" aria-label="Apartment or suite" aria-describedby="basic-addon1" />
+                    <input type="text" id="typeText" className="form-control" placeholder='Bamboo Building' value={building} onChange={(e) => setAddress2(e.target.value)} />
                     </div>
+                    <p className="mb-0">
+                        Phone Number
+                    </p>
+                    <div className="form-outline mb-4">
+                    <input type="text" id="typeText" className="form-control" value={phone} onChange={(e) => setPhone(e.target.value)} />
+
+                    </div>
+
+                    {/* <!--address--> */}
+                  
 
                     {/* <!--Grid row--> */}
                     <div className="row">
-                        {/* <!--Grid column--> */}
-                        <div className="col-lg-4 col-md-12 mb-4">
+                    <div className="col-lg-4 col-md-12 mb-4">
                             <p className="mb-0">
-                                Country
+                                City
                             </p>
                             <div className="form-outline mb-4">
-                        <input type="email" className="form-control" placeholder="United States" aria-label="United States" aria-describedby="basic-addon1" />
+                            <input type="text" id="typeText" className="form-control" placeholder='Nairobi' value={city} onChange={(e) => setCity(e.target.value)} />
                     </div>
                         </div>
-                        {/* <!--Grid column--> */}
-
-                        {/* <!--Grid column--> */}
+                        
                         <div className="col-lg-4 col-md-12 mb-4">
                             <p className="mb-0">
-                                State
+                                County
                             </p>
                             <div className="form-outline mb-4">
-                        <input type="email" className="form-control" placeholder="California" aria-label="California" aria-describedby="basic-addon1" />
+                            <input type="text" id="typeText" className="form-control" placeholder='Nairobi' value={county} onChange={(e) => setCounty(e.target.value)} />
                     </div>
                         </div>
-                        {/* <!--Grid column--> */}
-
-                        {/* <!--Grid column--> */}
-                        <div className="col-lg-4 col-md-12 mb-4">
-                            <p className="mb-0">
-                                Zip
-                            </p>
-                            <div className="form-outline">
-                                <input type="text" className="form-control"/>
-                            </div>
-                        </div>
-                        {/* <!--Grid column--> */}
+                        
                     </div>
                     {/* <!--Grid row--> */}
 
                     <hr />
-                    <div className="form-check">
+                    {/* <div className="form-check">
                         <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
                         <label className="form-check-label" >Shipping address is the same as my billing address</label>
                     </div>
@@ -139,8 +159,8 @@ const handleCheckout = async () => {
                         <label className="form-check-label" >Save this information for next time</label>
                     </div>
 
-                    <hr />
-
+                    <hr /> */}
+{/* 
                     <div className="my-3">
                   
 
@@ -152,7 +172,7 @@ const handleCheckout = async () => {
                             <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" />
                             <label className="form-check-label" > Pay on Delivery </label>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="row mb-3">
                        
                         <div className="col-md-6 mb-3">
@@ -160,7 +180,7 @@ const handleCheckout = async () => {
                                 Phone number
                             </p>
                             <div className="form-outline">
-                                <input type="text" className="form-control" />                                
+                            <input type="text" id="typeText" className="form-control" placeholder='Safaricom M-Pesa' value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />                             
                             </div>
                         </div>
                     </div>
@@ -169,7 +189,7 @@ const handleCheckout = async () => {
                         
                     </div>
                     <hr className="mb-4" />                    
-                  <button className="btn btn-primary" type="button">Continue to checkout</button>
+                  <button className="btn btn-primary" type="button" onClick={handleCheckout}>Continue to checkout</button>
                 </div>
                 {/* <!--/.Card--> */}
             </div>
@@ -180,37 +200,23 @@ const handleCheckout = async () => {
                 {/* <!-- Heading --> */}
                 <h4 className="d-flex justify-content-between align-items-center mb-3">
                     <span className="text-muted">Your cart</span>
-                    <span className="badge rounded-pill badge-primary">3</span>
+                    <span className="badge rounded-pill badge-primary">{cart.cartTotalQuantity}</span>
                 </h4>
 
                 {/* <!-- Cart --> */}
                 <ul className="list-group mb-3">
-                    <li className="list-group-item d-flex justify-content-between">
-                        <div>
-                            <h6 className="my-0">Product name</h6>
-                            <small className="text-muted">Brief description</small>
-                        </div>
-                        <span className="text-muted">$12</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <div>
-                            <h6 className="my-0">Second product</h6>
-                            <small className="text-muted">Brief description</small>
-                        </div>
-                        <span className="text-muted">$8</span>
-                    </li>
-                    <li className="list-group-item d-flex justify-content-between">
-                        <div>
-                            <h6 className="my-0">Third item</h6>
-                            <small className="text-muted">Brief description</small>
-                        </div>
-                        <span className="text-muted">$5</span>
-                    </li>
-               
-                    <li className="list-group-item d-flex justify-content-between">
-                        <span>Total (USD)</span>
-                        <strong>$20</strong>
-                    </li>
+                {cart.cartItems &&
+              cart.cartItems.map((cartItem: any) => (
+                <li key={cartItem.id} className="list-group-item d-flex justify-content-between" >
+                <div>
+                    <h6 className="my-0">{cartItem.name}</h6>
+                    <small className="text-muted">{cartItem.desc}</small>
+                </div>
+                <span className="text-muted">{cartItem.price}</span>
+            </li>
+              ))}
+
+                   
                 </ul>
                 {/* <!-- Cart --> */}
 

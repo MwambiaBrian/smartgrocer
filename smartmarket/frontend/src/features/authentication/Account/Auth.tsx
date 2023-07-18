@@ -54,7 +54,7 @@ export default function () {
     if (authMode==="signin") {
       console.log(auth);
       dispatch(loginUser(user));
-      console.log(auth)
+    //  console.log(auth)
     } else {
       console.log(reg_user);
       dispatch(registerUser(reg_user));

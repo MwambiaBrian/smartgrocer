@@ -1,24 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
+import axios from "axios";
 import { PrimaryButton } from "./CommonStyled";
 import { createProduct } from "../../Slices/ProductsSlice";
 import { AppDispatch, RootState } from "../../Store";
 import { QueryClient, useMutation } from "react-query";
 import { addProduct } from "../../api/productsApi";
+//import { getBusiness } from "../../Slices/businessSlice";
 
 const CreateProduct = () => {
+  const navigate = useNavigate();
     const dispatch: AppDispatch = useDispatch();
   const { createStatus } = useSelector((state: RootState) => state.products);
+ 
 
+
+
+
+  useEffect(()=>{
+   // dispatch(getBusiness(auth._id));
+  },[navigate])
+
+
+  const business= useSelector((state: RootState) => state.businesses);
+ // console.log(business)
+  console.log(`from createproduct${business.business._id}`)
   const [productImg, setProductImg] = useState<string>("");
  
   const [new_product, setnew_product] = useState({
     name: "",
     category: "",
     price: 0,
-    img:productImg,
+  
     desc: ""
   });
 
@@ -55,13 +71,41 @@ const CreateProduct = () => {
       setProductImg("");
     }
   };
+  
 
-  const handleSubmit = async (e: any) => {
+
+
+const handleSubmit = async (e: any) => {
+  e.preventDefault();
+
+  const formData = new FormData();
+  formData.append("businessId", business.business._id);
+  formData.append("name", new_product.name);
+  formData.append("category", new_product.category);
+  formData.append("price", new_product.price.toString());
+  formData.append("desc", new_product.desc);
+  formData.append("img", productImg);
+ 
+
+  try {
+
+    console.log(formData)
+    const response = await axios.post("http://localhost:5003/api/products", {...new_product, img:productImg, businessId:business.business._id});
+    console.log(response.data);
+    navigate("/seller");
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+  const handleSubmi = async (e: any) => {
     e.preventDefault();
-console.log(productImg)
+console.log({...new_product, img:productImg, businessId:business.business._id})
     dispatch(
-      createProduct({...new_product, img:productImg})
+      createProduct({...new_product, img:productImg, businessId:business.business._id}),
+ 
     );
+    navigate("/seller")
   };
 
   return (

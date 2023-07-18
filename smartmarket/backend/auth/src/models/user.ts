@@ -7,6 +7,7 @@ export interface Iuser {
   name: string;
   email: string;
   password: string;
+  role?: string;
  
 }
 
@@ -26,7 +27,8 @@ const userSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-   role: { type: String, required: false,default: "normal" },
+   role: { type: String,
+    default: 'customer' },
     // payment: {
     //     type: {
     //       method: { type: String, enum: ['credit_card', 'paypal'], required: true },
@@ -70,5 +72,5 @@ const userSchema = new mongoose.Schema({
     }
   };
 
-  const User = mongoose.model('User', userSchema);
+  const User = mongoose.model<Iuser>('User', userSchema);
    export default User

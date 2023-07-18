@@ -5,7 +5,7 @@ import { Iuser } from "../models/user"
 const controller = express.Router()
 
 controller.post("/signup", (req, res)=>{
-    const apiUrl = 'http://localhost:5000/auth/api/register'
+    const apiUrl = 'http://localhost:5001/api/auth/register'
    // const requestBody = {
    //    name: req.body.name,
    //    email: req.body.email,
@@ -28,7 +28,7 @@ controller.post("/signup", (req, res)=>{
 })
 
 controller.post("/signin", (req, res)=>{
-   const apiUrl = 'http://localhost:5000/auth/api/login'
+   const apiUrl = 'http://localhost:5001/api/auth/login'
    const user: Iuser = {
       
       name: req.body.name,
@@ -41,7 +41,7 @@ controller.post("/signin", (req, res)=>{
 //res.send(response.data)
 })
 controller.post("/forgotpassword", (req, res)=>{
-    const apiUrl = 'http://localhost:5000/auth/api/resetpassword'
+    const apiUrl = 'http://localhost:5001/auth/api/resetpassword'
    // const requestBody = {
    //    name: req.body.name,
    //    email: req.body.email,
@@ -56,7 +56,7 @@ controller.post("/forgotpassword", (req, res)=>{
 //res.send("Hello,express forgot password")
 })
 controller.post("/verifyaccount", (req, res)=>{
-   const apiUrl = 'http://localhost:5000/auth/api/verify'
+   const apiUrl = 'http://localhost:5001/auth/api/verify'
    // const requestBody = {
    //    name: req.body.name,
    //    email: req.body.email,

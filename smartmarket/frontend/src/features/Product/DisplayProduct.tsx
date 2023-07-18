@@ -22,8 +22,8 @@ interface Product {
   // };
   return (
     <>
-  <div className="col-lg-3 col-md-6 mb-4">
-        <div className="card">
+  <div  className="col-lg-3 col-md-6 mb-4">
+        <div style={{backgroundColor:'green'}} className="card">
           <div className="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
             data-mdb-ripple-color="light">
             <img src={product.img}

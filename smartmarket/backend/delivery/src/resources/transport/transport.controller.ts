@@ -8,7 +8,7 @@ import TransportService from './transport.service';
 
 
 class TransportController implements Controller {
-    public path = '/transport'
+    public path = '/transportS'
     public router = Router();
     private transport = new TransportService
 
@@ -52,9 +52,14 @@ class TransportController implements Controller {
         next: NextFunction
     ): Promise<Response |void> =>{
         try {
-            const {transportEmail, transportMobileNumber, ownerId, transportType, transportNumber} = req.body;
-           
-            const newtransport = await this.transport.create(transportEmail, transportMobileNumber, ownerId, transportType, transportNumber)
+            const {transportEmail, transportMobileNumber, ownerId, transportType, transportNumber, stage} = req.body;
+        //    const stage = {
+        //     county: county,
+        //     town: town,
+        //     street: street
+
+        //    }
+            const newtransport = await this.transport.create(transportEmail, transportNumber, ownerId, transportType, transportMobileNumber, stage)
             // const newbusiness = await this.business.create(name, businessEmail,  ownerId, desc);
              res.json({ newtransport}) 
         } catch(error: any) {
@@ -71,9 +76,9 @@ class TransportController implements Controller {
         try {
             const {id} = req.params;
             console.log(id);
-            const business = await this.transport.retrieveById(id)
+            const vehicle = await this.transport.retrieveById(id)
             // const newbusiness = await this.business.create(name, businessEmail,  ownerId, desc);
-             res.send({ business}) 
+             res.json( vehicle ) 
         } catch(error: any) {
             next(new HttpException(400, error.message))
         }

@@ -3,7 +3,9 @@ import { toast, ToastOptions } from "react-toastify";
 
 interface CartItem {
     // Define the structure of the cart item
-    _id: string;
+    businessId: string
+     _id: string;
+    productId: string;
     price: number
     cartQuantity: number;
     // Add other properties if needed
@@ -15,7 +17,9 @@ interface State {
 }
 
 interface AddToCartPayload {
-  _id: string;
+_id:string;
+  productId: string;
+  businessId: string;
   
   // Add more properties as needed for your payload
 }
@@ -61,7 +65,7 @@ const cartSlice = createSlice({
     },
     decreaseCart: (state, action: PayloadAction<AddToCartPayload>) => {
       const itemIndex = state.cartItems.findIndex(
-        (item) => item._id === action.payload._id
+        (item) => item._id=== action.payload._id
       );
 
       if (state.cartItems[itemIndex].cartQuantity > 1) {

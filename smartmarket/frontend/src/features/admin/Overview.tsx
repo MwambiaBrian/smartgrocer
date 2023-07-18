@@ -2,13 +2,107 @@
 import styled from 'styled-components'
 import{ FaUsers, FaChartBar, FaClipboard} from 'react-icons/fa'
 import Widget from './Summary-components/Widget'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../Store';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const Summary = () => {
+    const business= useSelector((state: RootState) => state.businesses);
+    const [users, setUsers]=useState([
+        {
+            _id:'',
+            name:"",
+            
+            email: "",
+            password:'',
+           
+            role: '',
+           
+          }
+           
+    ]);
+    const [orders, setOrders]=useState([
+        {
+            _id:'',
+            customerId:"",
+            products: Array<{
+             // productId: string;
+              businessId:'';
+              cartQuantity: '';
+              price: '';
+              // subtotal: number;
+        
+            }>,
+            totalAmount: null,
+            shippingAddress: {
+              street: '',
+              city: '',
+              building: '',
+              county: ''
+              
+            },
+            deliveryStatus: '',
+            paymentStatus:'',
+            createdAt: ''
+          }
+           
+    ]);
+    
+    const fetchOrders = async () => {
+        // const response = await axios.get(`http://localhost:5005/api/order/${customerId}}`);
+        const response = await axios.get(`http://localhost:5005/api/order`);
+        console.log(`from fetch${response.data}`)
+        return response.data;
+      };
+    
+      useEffect(()=>{
+        const getMyOrders = async ()=>{
+          const myOrders = await fetchOrders()
+          console.log(`from app ${myOrders}`)
+          setOrders(myOrders);
+        }
+       
+       getMyOrders()
+       
+       //console.log(`from app file ${auth._id}`)
+      
+      },[])
+      const rows = orders && orders
+      //   .filter(order => order.customerId === auth._id)
+          .map(order => ({
+            id: order._id,
+            
+           // pAmount: order.totalAmount.toLocaleString(),
+          //   pDriver: order.Driver,
+            pStatus: order.deliveryStatus,
+            pPayment: order.paymentStatus,
+            pTime: order.createdAt
+          }));
+    const myOrders = rows.length
+    const fetchUsers = async () => {
+        const response = await axios.get(`http://localhost:5001/api/auth`);
+      
+        return response.data;
+      };
+    useEffect(()=>{
+        const getUsers = async ()=>{
+          const users = await fetchUsers()
+        
+          setUsers(users)
+          
+        }
+       
+       getUsers()
+       
+       
+      
+      },[])
     const data = [
 
         {
             icon: <FaUsers />,
-            digits: 50,
+            digits: users.length,
             isMoney: false,
             title: 'Users',
             color: "rgb(102, 181, 40)",
@@ -17,7 +111,7 @@ const Summary = () => {
         },
         {
             icon: <FaClipboard />,
-            digits: 70,
+            digits: myOrders,
             isMoney: false,
             title: 'Orders',
             color: "rgb(38, 198, 249)",
@@ -25,15 +119,7 @@ const Summary = () => {
             percentage: 20
         },
      
-        {
-            icon: <FaChartBar />,
-            digits: 500,
-            isMoney: false,
-            title: 'Earnings',
-            color: "rgb(253, 108, 255)",
-            bgColor:  "rgba(102, 108, 255, 0.12)",
-            percentage: 60
-        }
+      
         
         
     ]

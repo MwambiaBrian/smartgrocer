@@ -2,7 +2,8 @@ import {Schema, model } from 'mongoose';
 import Product from './product.interface'
 
 const ProductSchema = new Schema({
-    businessId: {type: String, required: true},
+    businessId: { type: Schema.Types.ObjectId,
+        ref: 'Business', required: true},
 
     name: {
         type: String,

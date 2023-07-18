@@ -1,18 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Landing.css'
 import { AppDispatch, RootState } from '../../Store';
 import { useDispatch, useSelector } from 'react-redux';
 import DisplayProduct from '../Product/DisplayProduct';
 
 import { addToCart, getTotals } from '../../Slices/cartSlice';
+//import { getBusiness } from '../../Slices/businessSlice';
+import { loadUser } from '../../Slices/authSlice';
+import { getAllProducts } from '../../Slices/ProductsSlice';
 
 
 function Landing() {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const auth = useSelector((state: RootState) => state.auth);
   const {data} = useSelector((state: RootState) => state.products);
 
 console.log(data)
+
+
+useEffect(()=>{
+ // dispatch(getBusiness(auth._id));
+  dispatch(loadUser())
+  dispatch(getAllProducts())
+},[])
+
 
 
 const handleAddToCart = (product: any) => {

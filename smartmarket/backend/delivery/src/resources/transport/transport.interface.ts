@@ -6,4 +6,9 @@ export default interface Transport extends Document {
     transportEmail: string,
     transportMobileNumber: string,
     transportType: string
+    stage: {
+        county: string;
+        town: string;
+        street: string;
+      };
 }

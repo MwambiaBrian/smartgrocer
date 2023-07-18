@@ -14,69 +14,69 @@ const Dashboard = () => {
       <Header />
       <SideNav>
         <h3>Quick Links</h3>
-        <NavLink
+        <NavLink style={{fontSize: 20}}
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
-          to="/admin/summary"
+          to="/admin"
         >
           Summary
         </NavLink>
-        <NavLink
+        <NavLink style={{fontSize: 20}}
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
-          to="/cdproducts"
+          to="products"
         >
           Products
         </NavLink>
      
      
-        <NavLink
+        <NavLink style={{fontSize: 20}}
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
-          to="/admin/transports"
+          to="vehicles"
         >
           Transports
         </NavLink>
-        <NavLink
+        <NavLink style={{fontSize: 20}}
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
-          to="/admin/businesses"
+          to="businesses"
         >
           Transactions
         </NavLink>
-        <NavLink
+        <NavLink style={{fontSize: 20}}
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
-          to="/admin/businesses"
+          to="businesses"
         >
           Businesses
         </NavLink>
-        <NavLink
+        <NavLink style={{fontSize: 20}}
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
-          to="/admin/businesses"
+          to="deliveries"
         >
           Deliveries
         </NavLink>
-        <NavLink
+        <NavLink style={{fontSize: 20}}
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
-          to="/admin/orders"
+          to="orders"
         >
           Orders
         </NavLink>
-        <NavLink
+        <NavLink style={{fontSize: 20}}
           className={({ isActive }) =>
             isActive ? "link-active" : "link-inactive"
           }
-          to="/admin/users"
+          to="users"
         >
           Users
         </NavLink>

@@ -12,10 +12,10 @@
  
      /**create a User */
  
-     public async create(name: string, email: string, password: string) {
+     public async create(name: string, email: string, password: string, role: string) {
          try {
              //console.log(name)
-             const user = await this.user.create({name, email, password,});
+             const user = await this.user.create({name, email, password,role});
              return user;
          } catch(error) {
              console.log(error)

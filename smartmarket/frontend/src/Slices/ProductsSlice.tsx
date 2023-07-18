@@ -11,7 +11,7 @@ interface Product {
   category: string;
   img: string;
   price: number;
-
+businessId: string,
   desc: string;
  
 }
@@ -26,6 +26,7 @@ interface ProductState {
 
 interface CreateProductValues {
   name: string;
+  businessId: string,
   category: string;
   price: number;
   img: string;
@@ -38,16 +39,19 @@ export const createProduct = createAsyncThunk<Product, CreateProductValues, { re
   "product/createProduct",
   async (values, { rejectWithValue }) => {
     try {
+
+      console.log(values.businessId)
       const response = await axios.post(`${url_api}/products`, {
-        name: values.name,
+        name: values.name  ,
         category: values.category,
         price: values.price,
         img: values.img,
-        desc: values.desc
+        desc: values.desc,
+        businessId: values.businessId
       });
-      console.log(response.data.product)
+      console.log(response.data)
 
-      return response.data.product;
+      return response.data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
             console.log(error.response?.data);

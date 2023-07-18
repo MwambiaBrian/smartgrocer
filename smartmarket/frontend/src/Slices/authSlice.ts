@@ -6,8 +6,8 @@ import { url, setHeaders} from "./api";
 interface User {
   name: string;
   email: string;
-  role: string,
   id: string;
+  role: string;
 }
 
 interface AuthState {
@@ -15,7 +15,7 @@ interface AuthState {
   name: string;
   email: string;
   _id: string;
-  
+  role: string;
  
   registerStatus: string;
   registerError: string;
@@ -107,6 +107,7 @@ const initialState: AuthState = {
   name: "",
   email: "",
   _id: "",
+  role: "",
   registerStatus: "",
   registerError: "",
   loginStatus: "",
@@ -130,6 +131,7 @@ const authSlice = createSlice({
           name: user.name,
           email: user.email,
           _id: user.id,
+          role: user.role,
           userLoaded: true,
         };
       } else return { ...state, userLoaded: true };
@@ -143,6 +145,7 @@ const authSlice = createSlice({
         name: "",
         email: "",
         _id: "",
+        role: "",
         registerStatus: "",
         registerError: "",
         loginStatus: "",
@@ -161,11 +164,12 @@ const authSlice = createSlice({
         state.name=user.name
         state.email=user.email
         state._id=user.id
+        state.role=user.role
         state.registerStatus="success"
         state.token=action.payload;
       
         
-        console.log(state._id)
+        //console.log(state._id)
         return state
       } else return state;
     });
@@ -188,6 +192,7 @@ const authSlice = createSlice({
         state.email=user.email
        
         state._id=user.id
+        state.role=user.role
         state.loginStatus = "success"
         state.token=action.payload;
         console.log(state._id)

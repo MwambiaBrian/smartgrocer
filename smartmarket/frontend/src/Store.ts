@@ -3,6 +3,7 @@ import authReducer from "./Slices/authSlice";
 import cartReducer from './Slices/cartSlice';
 import ProductsReducer from './Slices/ProductsSlice';
 import businessReducer from './Slices/businessSlice';
+import vehicleReducer from './Slices/vehicleSlice';
 // ...
 
 export const store = configureStore({
@@ -11,7 +12,8 @@ export const store = configureStore({
       auth: authReducer,
       cart: cartReducer,
       products: ProductsReducer,
-      businesses: businessReducer
+      businesses: businessReducer,
+      vehicle: vehicleReducer
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(),

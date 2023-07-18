@@ -6,10 +6,10 @@ class TransportService {
 
     /**create a transport */
 
-    public async create( transportEmail: string, transportNumber: string, ownerId: number,  transportType: string, transportMobileNumber: string) {
+    public async create( transportEmail: string, transportNumber: string, ownerId: number,  transportType: string, transportMobileNumber: string, stage: any) {
         try {
             
-            const transport = await this.transport.create({transportEmail, transportNumber, ownerId,  transportType, transportMobileNumber});
+            const transport = await this.transport.create({transportEmail, transportNumber, ownerId,  transportType, transportMobileNumber, stage});
             return transport;
         } catch(error) {
             console.log(error)
@@ -34,7 +34,7 @@ class TransportService {
      public async retrieveById(id: string) {
         try {
       
-            const transport = await this.transport.find({ownerId:id});
+            const transport = await this.transport.findOne({ownerId:id});
             return transport;
         } catch(error) {
             console.log(error)
